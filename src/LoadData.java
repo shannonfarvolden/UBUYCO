@@ -5,7 +5,7 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 /**
- * Loads the order database using code.
+ * Loads the database using code.
  */
 public class LoadData
 {
@@ -17,12 +17,12 @@ public class LoadData
 	public static void loadData() throws Exception
 	{		
 		// TODO: Fill-in
-		String url = "jdbc:sqlserver://sql04.ok.ubc.ca:1433;db_username=userid;";
-		String uid = "username";
-		String pw = "userid";
+		String url = "jdbc:mysql://cosc304.ok.ubc.ca/db_cmckay";
+		String uid = "cmckay";
+		String pw = "33932120";
 		
 		System.out.println("Connecting to database.");
-		
+
 		Connection con = DriverManager.getConnection(url, uid, pw);
 				
 		String fileName = "data/order_sql.ddl";
