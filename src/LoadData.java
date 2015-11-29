@@ -17,9 +17,9 @@ public class LoadData
 	public static void loadData() throws Exception
 	{		
 		// TODO: Fill-in
-		String url = "jdbc:mysql://cosc304.ok.ubc.ca/db_cmckay";
-		String uid = "cmckay";
-		String pw = "33932120";
+		String url = "jdbc:mysql://cosc304.ok.ubc.ca/db_group3";
+		String uid = "group3";
+		String pw = "group3";
 		
 		System.out.println("Connecting to database.");
 
