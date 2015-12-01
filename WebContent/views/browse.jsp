@@ -90,8 +90,7 @@
 		out.println("<table><tr><th></th><th>Product Name</th><th>Price</th></tr>");
 		while (rst.next()) 
 		{
-			out.print("<tr><td><a href=\"item.html?id=" + rst.getInt(1) + "&name=" + rst.getString(2)
-					+ "&price=" + rst.getDouble(3) + "\">View Item</a></td>");
+			out.print("<tr><td><a href=\"item.jsp?pid=" + rst.getInt("pid") + "\">View Item</a></td>");
 			out.println("<td>" + rst.getString(2) + "</td>" + "<td>" + currFormat.format(rst.getDouble(3))
 					+ "</td></tr>");
 		}
