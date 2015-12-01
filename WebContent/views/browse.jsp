@@ -81,6 +81,7 @@
 
 	try 
 	{
+		Class.forName("com.mysql.jdbc.Driver");
 		con = DriverManager.getConnection(url, uid, pw);
 		PreparedStatement pstmt = con.prepareStatement(sql);
 		if (hasParameter)

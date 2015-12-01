@@ -73,6 +73,10 @@
                 <input type="text" class="form-control" id="description" placeholder="Description">
             </div>
             <div class="form-group">
+                <label for="condition">Item Condition</label>
+                <input type="text" class="form-control" name="condition" id="condition" placeholder="Item Condition">
+            </div>
+            <div class="form-group">
                 <label for="sel1">Category</label>
                 <select class="form-control" id="sel1">
                     <option>Textbook</option>
@@ -83,16 +87,6 @@
                     <option>Electronics</option>
                     <option>Household Item</option>
                     <option>Miscellaneous</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="sel2">Faculty</label>
-                <select class="form-control" id="sel2">
-                    <option>Sciences</option>
-                    <option>Arts</option>
-                    <option>Business</option>
-                    <option>Engineering</option>
-                    <option>Creative and Critical Studies</option>
                 </select>
             </div>
         </div>
