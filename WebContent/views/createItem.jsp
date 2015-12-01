@@ -96,11 +96,9 @@
 					</select>
 				</div>
 			</div>
-
 			<div class="col-md-8">
 				<button type="submit" class="btn btn-default">Submit</button>
 			</div>
-
 		</form>
 	</div>
 	<br>
