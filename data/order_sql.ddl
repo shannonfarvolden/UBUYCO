@@ -36,6 +36,7 @@ CREATE TABLE Message (
     subject VARCHAR(50),
     content VARCHAR(255),
     sender INT,
+    isRead BOOLEAN,
     PRIMARY KEY (mid),
     FOREIGN KEY (sender) REFERENCES User(uid) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (receiver) REFERENCES User(uid) ON DELETE CASCADE ON UPDATE CASCADE
