@@ -4,7 +4,7 @@ DROP TABLE Item;
 DROP TABLE User;
 
 CREATE TABLE User (
-    uid INT NOT NULL,
+    uid INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(20),
     password VARCHAR(20),
     email VARCHAR(50),
@@ -17,7 +17,7 @@ CREATE TABLE User (
 );
 
 CREATE TABLE Item (
-    pid INT NOT NULL,
+    pid INT NOT NULL AUTO_INCREMENT,
     pname VARCHAR(100),
     price DECIMAL(10,2),
     description VARCHAR(255),
@@ -30,7 +30,7 @@ CREATE TABLE Item (
 );
 
 CREATE TABLE Message (
-    mid INT NOT NULL,
+    mid INT NOT NULL AUTO_INCREMENT,
     senttime TIMESTAMP,
     receiver INT,
     subject VARCHAR(50),
@@ -43,7 +43,7 @@ CREATE TABLE Message (
 );
 
 CREATE TABLE Comment (
-    cid INT NOT NULL,
+    cid INT NOT NULL AUTO_INCREMENT,
     subject VARCHAR(50),
     content VARCHAR(255),
     commenter INT,

@@ -22,7 +22,7 @@ public class LoadData
 		String pw = "group3";
 		
 		System.out.println("Connecting to database.");
-
+		Class.forName("com.mysql.jdbc.Driver");
 		Connection con = DriverManager.getConnection(url, uid, pw);
 				
 		String fileName = "data/order_sql.ddl";

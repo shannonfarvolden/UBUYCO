@@ -151,7 +151,7 @@
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				con = DriverManager.getConnection(url, uid, pw);
-				//temp userselling is one change to person logged in
+				//temp change userselling to person logged in
 				if (hasItem && hasPrice && hasDesc && hasCon) {
 					String sql = "INSERT INTO Item (pname, price, description, pcondition, issold, userselling, pcategory) VALUES ('"
 							+ itemName + "', '" + price + "', '" + desc + "', '" + condition + "', false, 3, '"

@@ -74,6 +74,7 @@ try {
 	pstmtUser = con.prepareStatement(UserSQL);
 	ResultSet rstUser = pstmtUser.executeQuery();
 	
+	out.print("<h1>"+rst.getString("pid")+"</h1>");
 	out.print("<div class=\"container\">"+
 			"<div class=\"page-header\">"+
 		    	"<h1>"+rst.getString("pname")+"</h1>"+
