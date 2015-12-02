@@ -49,7 +49,6 @@
 <!--end nav-->
 
 <%
-String ID = request.getParameter("pid");
 NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 
 Connection con = null;
@@ -58,23 +57,29 @@ String uid = "group3";
 String pw = "group3";
 
 try {
+	
+	String prodID = request.getParameter("pid");
+	
+	Class.forName("com.mysql.jdbc.Driver");
 	con = DriverManager.getConnection(url, uid, pw);
 	String SQL = "SELECT * "+
 			"FROM Item "+
-			"WHERE pid="+ID;
-
+			"WHERE pid="+prodID;
+	
 	PreparedStatement pstmt;
 	pstmt = con.prepareStatement(SQL);
 	ResultSet rst = pstmt.executeQuery();
 	
 	rst.first();
 	
-	String UserSQL = "SELECT username FROM User WHERE uid = "+rst.getInt("userselling");
+	String userID = rst.getString("userselling");
+	
+	String UserSQL = "SELECT username FROM User WHERE uid = "+userID;
 	PreparedStatement pstmtUser;
 	pstmtUser = con.prepareStatement(UserSQL);
 	ResultSet rstUser = pstmtUser.executeQuery();
+	rstUser.first();
 	
-	out.print("<h1>"+rst.getString("pid")+"</h1>");
 	out.print("<div class=\"container\">"+
 			"<div class=\"page-header\">"+
 		    	"<h1>"+rst.getString("pname")+"</h1>"+
@@ -84,7 +89,9 @@ try {
 		    "<div class=\"thumbnail\">"+
 		        "<img src=\"../assets/placeholder.png\" alt=\"Item Image\">"+
 		    "</div>"+
-		    "<h3>Item Description</h3>"+
+		    "<div class=\"col-xs-6 col-md-3\">"+
+		        "<h3>Seller: <a href=\"profile.jsp?uid="+rst.getInt("userselling")+"\">"+rstUser.getString("username")+"</a></h3>"+
+		    "</div>"+
 		"</div>");
 
 		out.print("<div class=\"col-md-offset-4\">"+
@@ -113,12 +120,13 @@ try {
 		            rst.getString("pcondition")+
 		        "</div>"+
 		    "</div>"+
-
-		    "<button type=\"submit\" class=\"btn btn-lg btn-primary\">Buy Now</button>"+
+		    "<form action=\"buyMessage.jsp?pid="+prodID+"&uid="+userID+"\" method=\"post\">"+
+			"<input type=\"submit\" value=\"Buy Now\" class=\"btn btn-default\">"+
+	    	"</form>"+
 		"</div>"+
 
 		"<h3>Comments</h3>"+
-		"<form>"+
+		"<form action=>"+
 		    "​<textarea class=\"form-control\" id=\"txtArea\" rows=\"3\" cols=\"70\"></textarea><br>"+
 		    "<button type=\"submit\" class=\"btn btn-default\">Submit</button>"+
 		"</form>"+
