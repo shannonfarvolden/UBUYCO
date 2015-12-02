@@ -109,23 +109,7 @@
 			String uid = "group3";
 			String pw = "group3";
 			NumberFormat currFormat = NumberFormat.getCurrencyInstance();
-			/* 	  String empName = request.getParameter("empname");
-			      String deptNum = request.getParameter("deptnum");
-			      try 
-				{
-					con = DriverManager.getConnection(url, uid, pw);
-					String sql = "SELECT ename, salary, dno FROM Emp";
-					boolean hasEmp = empName != null && !empName.equals("");  		
-					boolean hasDept= deptNum != null && !deptNum.equals("");
-					
-					PreparedStatement pstmt=null;
-					ResultSet rst = null;
-			
-					if (!hasEmp && !hasDept) 
-					{	
-						pstmt = con.prepareStatement(sql);
-						rst = pstmt.executeQuery();
-					} */
+
 			String itemName = request.getParameter("itemName");
 			String price = request.getParameter("price");
 			String desc = request.getParameter("description");

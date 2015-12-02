@@ -48,84 +48,78 @@
 		</div>
 	</nav>
 	<!--end nav-->
-	<div class="container">
-		<div class="page-header">
-			<h1>Edit Your Item</h1>
-		</div>
-		<div class="row">
-			<div class="col-xs-6 col-md-3">
-				<div class="thumbnail">
-					<img src="../assets/placeholder.png" alt="Item Image">
-				</div>
-			</div>
-		</div>
-		<form action="createItem.jsp" method="POST">
+	<%
+		Connection con = null;
+		String url = "jdbc:mysql://cosc304.ok.ubc.ca/group3";
+		String uid = "group3";
+		String pw = "group3";
+		NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 
-			<input type='file' name="fileToUpload" id="fileToUpload" /> <br>
-			<div class="col-md-8">
-				<div class="form-group">
-					<label for="itemName">Item</label> <input type="text"
-						class="form-control" name="itemName" id="itemName"
-						placeholder="Item">
-				</div>
-				<div class="form-group">
-					<label for="price">Price</label> <input type="number"
-						class="form-control" name="price" id="price" placeholder="Price">
-				</div>
-				<div class="form-group">
-					<label for="description">Description</label> <input type="text"
-						class="form-control" name="description" id="description"
-						placeholder="Description">
-				</div>
-				<div class="form-group">
-					<label for="condition">Item Condition</label> <input type="text"
-						class="form-control" name="condition" id="condition"
-						placeholder="Item Condition">
-				</div>
-				<div class="form-group">
-					<label for="category">Category</label> <select class="form-control"
-						name="category" id="category">
-						<option value="Textbook">Textbook</option>
-						<option value="Lab Book">Lab Book</option>
-						<option value="Lab/Class Equipment">Lab/Class Equipment</option>
-						<option value="Notes">Notes</option>
-						<option value="Clothing">Clothing</option>
-						<option value="Electronics">Electronics</option>
-						<option value="Household Items">Household Item</option>
-						<option value="Miscellaneous">Miscellaneous</option>
-					</select>
-				</div>
-			</div>
-			<div class="col-md-8">
-				<button type="submit" class="btn btn-default">Submit</button>
-			</div>
-		</form>
-	</div>
-	<br>
-	<div class="container">
-		<%
-			Connection con = null;
-			String url = "jdbc:mysql://cosc304.ok.ubc.ca/group3";
-			String uid = "group3";
-			String pw = "group3";
-			NumberFormat currFormat = NumberFormat.getCurrencyInstance();
-			/* 	  String empName = request.getParameter("empname");
-			      String deptNum = request.getParameter("deptnum");
-			      try 
-				{
-					con = DriverManager.getConnection(url, uid, pw);
-					String sql = "SELECT ename, salary, dno FROM Emp";
-					boolean hasEmp = empName != null && !empName.equals("");  		
-					boolean hasDept= deptNum != null && !deptNum.equals("");
-					
-					PreparedStatement pstmt=null;
-					ResultSet rst = null;
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection(url, uid, pw);
 			
-					if (!hasEmp && !hasDept) 
-					{	
-						pstmt = con.prepareStatement(sql);
-						rst = pstmt.executeQuery();
-					} */
+			//temp pid
+			String sql = "SELECT pname, price, description, pcondition, pcategory FROM Item WHERE pid=1 ";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			ResultSet rst = pstmt.executeQuery(); 
+			rst.next();
+			
+			out.print("<div class=\"container\">"
+					+"		<div class=\"page-header\">"
+					+"			<h1>Edit Your Item</h1>"
+					+"		</div>"
+					+"		<div class=\"row\">"
+					+"			<div class=\"col-xs-6 col-md-3\">"
+					+"				<div class=\"thumbnail\">"
+					+"					<img src= \"../assets/placeholder.png\" alt=\"Item Image\">"
+					+"				</div>"
+					+"			</div>"
+					+"		</div>"
+					+"		<form action=\"editItem.jsp\" method=\"POST\">"
+					+"			<input type='file' name=\"fileToUpload\" id=\"fileToUpload\" /> <br>"
+					+"			<div class=\"col-md-8\">"
+					+"				<div class=\"form-group\">"
+					+"					<label for=\"itemName\">Item</label> <input type=\"text\""
+					+"						class=\"form-control\" name=\"itemName\" id=\"itemName\" value=\""+rst.getString("pname")+"\""
+					+"						placeholder=\"Item\">"
+					+"				</div>"
+					+"				<div class=\"form-group\">"
+					+"					<label for=\"price\">Price</label> <input type=\"number\""
+					+"						class=\"form-control\" name=\"price\" id=\"price\" value=\""+rst.getInt("price")+"\" placeholder=\"Price\">"
+					+"				</div>"
+					+"				<div class=\"form-group\">"
+					+"					<label for=\"description\">Description</label> <input type=\"text\""
+					+"						class=\"form-control\" name=\"description\" id=\"description\"  value=\""+rst.getString("description")+"\"" 
+					+"						placeholder=\"Description\">"
+					+"				</div>"
+					+"				<div class=\"form-group\">"
+					+"					<label for=\"condition\">Item Condition</label> <input type=\"text\""
+					+"						class=\"form-control\" name=\"condition\" id=\"condition\"  value=\""+rst.getString("pcondition")+"\""
+					+"						placeholder=\"Item Condition\">"
+					+"				</div>"
+					+"				<div class=\"form-group\">"
+					+"					<label for=\"category\">Category</label> <select class=\"form-control\""
+					+"						name=\"category\" id=\"category\">"
+					+"						<option value=\"Textbook\">Textbook</option>"
+					+"						<option value=\"Lab Book\">Lab Book</option>"
+					+"						<option value=\"Lab/Class Equipment\">Lab/Class Equipment</option>"
+					+"						<option value=\"Notes\">Notes</option>"
+					+"						<option value=\"Clothing\">Clothing</option>"
+					+"						<option value=\"Electronics\">Electronics</option>"
+					+"						<option value=\"Household Items\">Household Item</option>"
+					+"						<option value=\"Miscellaneous\">Miscellaneous</option>"
+					+"					</select>"
+					+"				</div>"
+					+"			</div>"
+					+"			<div class=\"col-md-8\">"
+					+"				<button type=\"submit\" class=\"btn btn-default\">Submit</button>"
+					+"			</div>"
+					+"		</form>"
+					+"	</div>"
+					+"	<br>" ); 
+
 			String itemName = request.getParameter("itemName");
 			String price = request.getParameter("price");
 			String desc = request.getParameter("description");
@@ -136,7 +130,7 @@
 			boolean hasPrice = price != null && !price.equals("");
 			boolean hasDesc = desc != null && !desc.equals("");
 			boolean hasCon = condition != null && !condition.equals("");
-
+			out.print("<div class=\"container\">");
 			if (!hasItem)
 				out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing item name</div>");
 			if (!hasPrice)
@@ -145,30 +139,27 @@
 				out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing Description</div>");
 			if (!hasCon)
 				out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing Item Condition</div>");
-
+			out.println("</div>");
+			if (hasItem && hasPrice && hasDesc && hasCon) {
+				
+				//temp pid, replace with item clicked on
+				String sql2 = "UPDATE Item SET pname = '"+itemName+"', price='"+price+"', description = '"+desc+"', pcondition = '"+condition+"', pcategory = '"+category+"' " 
+				+"WHERE pid = 1";
+				PreparedStatement pstmt2 = con.prepareStatement(sql2);
+				pstmt2.execute();
+			}
+		} catch (SQLException ex) {
+			out.println(ex);
+		} finally {
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				con = DriverManager.getConnection(url, uid, pw);
-				//temp change userselling to person logged in
-				if (hasItem && hasPrice && hasDesc && hasCon) {
-					String sql = "INSERT INTO Item (pname, price, description, pcondition, issold, userselling, pcategory) VALUES ('"
-							+ itemName + "', '" + price + "', '" + desc + "', '" + condition + "', false, 3, '"
-							+ category + "' );";
-					PreparedStatement pstmt = con.prepareStatement(sql);
-					pstmt.execute();
-				}
+				if (con != null)
+					con.close();
 			} catch (SQLException ex) {
 				out.println(ex);
-			} finally {
-				try {
-					if (con != null)
-						con.close();
-				} catch (SQLException ex) {
-					out.println(ex);
-				}
 			}
-		%>
-	</div>
+		}
+	%>
+
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
