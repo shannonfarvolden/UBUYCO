@@ -73,8 +73,7 @@ try {
 	PreparedStatement pstmtUser;
 	pstmtUser = con.prepareStatement(UserSQL);
 	ResultSet rstUser = pstmtUser.executeQuery();
-	
-	out.print("<h1>"+rst.getString("pid")+"</h1>");
+	rstUser.next();
 	out.print("<div class=\"container\">"+
 			"<div class=\"page-header\">"+
 		    	"<h1>"+rst.getString("pname")+"</h1>"+
@@ -84,7 +83,7 @@ try {
 		    "<div class=\"thumbnail\">"+
 		        "<img src=\"../assets/placeholder.png\" alt=\"Item Image\">"+
 		    "</div>"+
-		    "<h3>Item Description</h3>"+
+		    "<a href=\"#\"><h3>"+rstUser.getString("username")+"</h3></a>"+
 		"</div>");
 
 		out.print("<div class=\"col-md-offset-4\">"+
@@ -138,8 +137,6 @@ finally {
         }
 	}	
 }
-
-
 %>
 
 
