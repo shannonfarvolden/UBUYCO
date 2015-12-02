@@ -100,7 +100,7 @@
 		Class.forName("com.mysql.jdbc.Driver");
 		con = DriverManager.getConnection(url, uid, pw);
 		
-		sql = "SELECT pid, pname, price FROM Item WHERE issold = 0";
+		sql = "SELECT pid, pname, price FROM Item WHERE issold = 0 ";
 		
 		if (catFilter.equals("none")) {
 			if (priceFilter.equals("none")) {}
