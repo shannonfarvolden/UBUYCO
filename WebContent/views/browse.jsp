@@ -28,7 +28,7 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="createItem.html">Create A Post <span class="sr-only">(current)</span></a></li>
+                <li><a href="createItem.jsp">Create A Post <span class="sr-only">(current)</span></a></li>
                 <li><a href="aboutUs.html">About Us</a></li>
             </ul>
             <form class="navbar-form navbar-left" role="search">
@@ -39,7 +39,7 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <!--if user not login display login-->
-                <li><a href="login.html">Login</a></li>
+                <li><a href="login.jsp">Login</a></li>
                 <!--else display username-->
                 <!--<li><a href="#">User Name</a></li>-->
             </ul>
