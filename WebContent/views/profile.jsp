@@ -48,6 +48,13 @@
 </nav>
 
 <!-- profile picture -->
+												
+<%@ include file="auth.jsp"%>
+
+<%
+    String userName = (String) session.getAttribute("authenticatedUser");
+    out.println("<h1>Welcome back, "+userName+"</h1>");
+%>
 <div class="container">
     <div class="row">
         <div class="col-xs-6 col-md-3">
@@ -56,7 +63,7 @@
             </div>
         </div>
     </div>
-	<form name="input" action="saveImage.jsp" method="POST" enctype="multipart/form-data">
+	<form name="input" action="uploadPic.jsp" method="POST" enctype="multipart/form-data">
     	<input type='file' name="fileToUpload" id="fileToUpload"/>
 		<input type="submit" value="Upload" />
 	</form>
