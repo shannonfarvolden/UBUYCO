@@ -24,12 +24,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">UBUYCO</a>
+            <a class="navbar-brand" href="home.jsp">UBUYCO</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="#">Create A Post <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">About Us</a></li>
+                <li><a href="createItem.jsp">Create A Post <span class="sr-only">(current)</span></a></li>
+                <li><a href="aboutUs.html">About Us</a></li>
             </ul>
             <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
@@ -39,7 +39,7 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <!--if user not login display login-->
-                <li><a href="#">Login</a></li>
+                <li><a href="login.jsp">Login</a></li>
                 <!--else display username-->
                 <!--<li><a href="#">User Name</a></li>-->
             </ul>
