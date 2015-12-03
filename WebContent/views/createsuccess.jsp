@@ -1,14 +1,3 @@
-<%
-	HttpSession isSession = request.getSession(false);
-	    if (isSession != null) 
-	    {
-	         isSession.invalidate();
-
-	    }
-%>
-<%@ page import="java.sql.*" %>
-<%@ page import="java.text.NumberFormat" %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,15 +37,23 @@
 					<button type="submit" class="btn btn-default">Search</button>
 				</form>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href='login.jsp'>Login</a></li>
+					<%
+				boolean isAuthenticated = session.getAttribute("username") == null ? false : true;
+				if (isAuthenticated) {
+					out.println("<li><a href='profile.jsp'>"+session.getAttribute("username")+"</a></li>");
+					out.println("<li><a href='logout.jsp'>Logout</a></li>");
+				} else {
+					out.println("<li><a href='login.jsp'>Login</a></li>");
+				}
+			%>
 				</ul>
 			</div>
 		</div>
 	</nav>
 	<!--end nav-->
 	<div class="container">
-		<div class="alert alert-success" role="alert">Successfully Logged Out</div>
-		<a class="btn btn-default" href="login.jsp">Back to log in</a>
+		<div class="alert alert-success" role="alert">Successfully Created An Item</div>
+		<a class="btn btn-default" href="browse.jsp">Back to browse</a>
 	</div>
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

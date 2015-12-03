@@ -1,6 +1,7 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF8"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +30,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="createItem.jsp">Create A Post <span class="sr-only">(current)</span></a></li>
-                <li><a href="aboutUs.html">About Us</a></li>
+                <li><a href="aboutus.jsp">About Us</a></li>
             </ul>
             <form class="navbar-form navbar-left" role="search" action="browse.jsp">
                 <div class="form-group">
@@ -38,22 +39,28 @@
                 <button type="submit" class="btn btn-default">Search</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <!--if user not login display login-->
-                <li><a href="login.jsp">Login</a></li>
-                <!--else display username-->
-                <!--<li><a href="#">User Name</a></li>-->
+             <%
+				boolean isAuthenticated = session.getAttribute("username") == null ? false : true;
+				if (isAuthenticated) {
+					out.println("<li><a href='profile.jsp'>"+session.getAttribute("username")+"</a></li>");
+					out.println("<li><a href='logout.jsp'>Logout</a></li>");
+				} else {
+					out.println("<li><a href='login.jsp'>Login</a></li>");
+				}
+			%>
             </ul>
         </div>
     </div>
 </nav>
 <!--end nav-->
+
+
 <div class="container">
 
-<!-- add code here -->
-
 <form action="browse.jsp" method="get">
-	<b>Filter by Category:</b>
-	<input type="radio" name="category" value="none" checked> All
+	
+	<b>Filter by Category:</b><br>
+	<input type="radio" name="category" value="none" checked> All<br>
 	<input type="radio" name="category" value="Lab Books"> Lab Books
 	<input type="radio" name="category" value="Textbooks"> Textbooks
 	<input type="radio" name="category" value="Notes"> Notes
@@ -62,16 +69,22 @@
 	<input type="radio" name="category" value="Electronics"> Electronics
 	<input type="radio" name="category" value="Lab/Class Equipment"> Lab/Class Equipment
 	<input type="radio" name="category" value="Miscellaneous"> Miscellaneous
+
 	<br>
-	<b>Filter by Price:</b>
+	
+	<b>Filter by Price:</b><br>
 	<input type="radio" name="price" value="none" checked> No Filter
 	<input type="radio" name="price" value="<5"> Under 5$
 	<input type="radio" name="price" value="BETWEEN 5 AND 20"> $5-$20
 	<input type="radio" name="price" value="BETWEEN 20 AND 100"> $20-$100
 	<input type="radio" name="price" value=">100"> Over $100
 	<br>
-	<input type="submit" value="submit">
+	<button type="submit" class="btn btn-default">Filter</button>
+	
+
 </form>
+
+
 <%
 	// Get product name to search for
 	String name = request.getParameter("pname");
@@ -117,10 +130,10 @@
 		}
 		
 		if (name.equals("")) {
-			out.println("<h2>All Products</h2>");
+			out.println("<div class=\"page-header\"><h2>All Products</h2></div>");
 		}
 		else {
-			out.println("<h2>Results for "+name+"</h2>");
+			out.println("<div class=\"page-header\"><h2>Results for "+name+"</h2></div>");
 			hasParameter = true;
 			sql = sql + "AND pname LIKE '%"+name+"%'";
 		}
@@ -129,14 +142,22 @@
 		PreparedStatement pstmt = con.prepareStatement(sql);
 		
 		ResultSet rst = pstmt.executeQuery();
-		out.println("<table><tr><th></th><th>Product Name</th><th>Price</th></tr>");
+		
+		
 		while (rst.next()) 
 		{
-			out.print("<tr><td><a href=\"item.jsp?pid=" + rst.getInt("pid")+"\">View Item</a></td>");
-			out.println("<td>" + rst.getString(2) + "</td>" + "<td>" + currFormat.format(rst.getDouble(3))
-					+ "</td></tr>");
+	   	  out.print("<div class=\"col-md-4 col-sm-4 \">"+
+	   			  	"  	<a href=\"item.jsp?pid="+ rst.getInt("pid")+ " \">"+
+					"  		<div class=\"panel panel-default\">"+
+					"  			<div class=\"panel-heading \">"+
+					"  				<h3 class=\"panel-title\">"+ rst.getString(2) +"</h3>"+
+					"  			</div>"+
+					"  			<div class=\"panel-body\">"+ currFormat.format(rst.getDouble(3))+
+					"  			</div>"+
+					"  		</div>"+
+					"  	</a>"+
+					"</div>");
 		}
-		out.println("</table>");
 	} 
 	catch (SQLException ex) 
 	{

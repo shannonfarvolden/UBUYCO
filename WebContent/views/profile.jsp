@@ -42,7 +42,7 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <!--if user not login display login-->
-                <%
+         	<%
 			boolean isAuthenticated = session.getAttribute("username") == null ? false : true;
 			if (isAuthenticated) {
 				out.println("<li><a href='profile.jsp'>"+session.getAttribute("username")+"</a></li>");
@@ -50,7 +50,7 @@
 			} else {
 				out.println("<li><a href='login.jsp'>Login</a></li>");
 			}
-		%>
+			%>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -89,7 +89,6 @@
 				yourPage = userID.equals(currUserID);
 			}
 		}
-		if (yourPage) {out.println("<h1>Welcome back, "+userName+"</h1>");}
 		
 		String pageUserSQL = "SELECT * FROM User WHERE uid = "+userID;
 		PreparedStatement pstmtPageUser = con.prepareStatement(pageUserSQL);

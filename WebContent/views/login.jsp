@@ -91,7 +91,7 @@
 	try {
 	Class.forName("com.mysql.jdbc.Driver");
 	con = DriverManager.getConnection(url, uid, pw);
-	
+	//temp change userselling to person logged in
 	if (!hasUsername)
 		out.println("<div class=\"alert alert-danger\" role=\"alert\">Username.  Enter one.</div>");
 	if (!hasPassword)

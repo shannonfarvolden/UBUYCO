@@ -1,6 +1,7 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF8"%>
+<%@ include file="auth.jsp"%>
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
@@ -37,10 +38,15 @@
                 <button type="submit" class="btn btn-default">Search</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <!--if user not login display login-->
-                <li><a href="login.jsp">Login</a></li>
-                <!--else display username-->
-                <!--<li><a href="#">User Name</a></li>-->
+              <%
+				boolean isAuthenticated = session.getAttribute("username") == null ? false : true;
+				if (isAuthenticated) {
+					out.println("<li><a href='profile.jsp'>"+session.getAttribute("username")+"</a></li>");
+					out.println("<li><a href='logout.jsp'>Logout</a></li>");
+				} else {
+					out.println("<li><a href='login.jsp'>Login</a></li>");
+				}
+			%>
             </ul>
         </div>
     </div>

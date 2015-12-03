@@ -85,7 +85,7 @@ INSERT INTO Item VALUES (16,"How to Teach Teenagers by I.N. Structor",329.99,"A 
 INSERT INTO Item VALUES (17,"Nursing for Dummies by Florence Nightingale",176.00,"Pretty good read, but slightly 'old-fashioned'","/pic.jpeg","Old",FALSE,4,null,"Textbooks");
 INSERT INTO Item VALUES (18,"Acting for Dummies by Hayden Christensen",89.99,"The best acting text by the best actor","/pic.jpeg","Been kept in protective facilities",FALSE,1,null,"Textbooks");
 INSERT INTO Item VALUES (19,"Size 11 Air Jordans",58.50,"My old shoes","/pic.jpeg","Not great",FALSE,2,null,"Clothes/Shoes");
-INSERT INTO Item VALUES (20,"China and Historical Capitalism: Genealogies of Sinological Knowledge",160.28,"Text for learning some stuff about China's history with Capitalism","/pic.jpeg","Quite good",FALSE,2,null,"Textbooks");
+INSERT INTO Item VALUES (20,"China and Historical Capitalism",160.28,"Text for learning some stuff about China's history with Capitalism","/pic.jpeg","Quite good",FALSE,2,null,"Textbooks");
 INSERT INTO Item VALUES (21,"5 lb. Dumbell",10.66,"A dumbell, but one that happens to weigh 5 lb.","/pic.jpeg","Really really high quality",FALSE,4,null,"Household Items");
 INSERT INTO Item VALUES (22,"Muscles and How to get Big Ones by Schwarzenegger",123.45,"A text on getting swull","/pic.jpeg","Okay",FALSE,3,null,"Textbooks");
 INSERT INTO Item VALUES (23,"Fundamentals of Analytical Chemistry by Skoog",170.18,"Required text for CHEM311","/pic.jpeg","Good",FALSE,2,null,"Textbooks");

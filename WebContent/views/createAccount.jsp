@@ -29,7 +29,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="createItem.jsp">Create A Post <span class="sr-only">(current)</span></a></li>
-                <li><a href="aboutUs.html">About Us</a></li>
+                <li><a href="aboutus.jsp">About Us</a></li>
             </ul>
             <form class="navbar-form navbar-left" role="search" action="browse.jsp">
                 <div class="form-group">
@@ -38,10 +38,15 @@
                 <button type="submit" class="btn btn-default">Search</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <!--if user not login display login-->
-                <li><a href="login.jsp">Login</a></li>
-                <!--else display username-->
-                <!--<li><a href="#">User Name</a></li>-->
+                <%
+				boolean isAuthenticated = session.getAttribute("username") == null ? false : true;
+				if (isAuthenticated) {
+					out.println("<li><a href='profile.jsp'>"+session.getAttribute("username")+"</a></li>");
+					out.println("<li><a href='logout.jsp'>Logout</a></li>");
+				} else {
+					out.println("<li><a href='login.jsp'>Login</a></li>");
+				}
+			%>
             </ul>
         </div>
     </div>
