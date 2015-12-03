@@ -70,10 +70,7 @@
     	Class.forName("com.mysql.jdbc.Driver");
 		con = DriverManager.getConnection(url, uid, pw);
 		
-		
-		
-		if (userName == null) {}
-		else {
+		if(userName != null) {
 			String SQL = "SELECT * FROM User WHERE username LIKE \""+userName+"\"";
 			PreparedStatement pstmt = con.prepareStatement(SQL);
 			ResultSet rst = pstmt.executeQuery();
@@ -173,7 +170,8 @@
 			            "<span class=\"input-group-addon\">"+currFormat.format(itemsBought.getDouble("price"))+"</span>"+
 			            "<input type=\"text\" class=\"form-control\" aria-label=\"Offer Price\">"+
 			        "</div>"+
-			    "</div>");
+			    "</div>"+
+			 "</div>");
 		    }
 		}
     }
@@ -193,7 +191,6 @@
 %>
 
 </div>
-
 
 
 </body>

@@ -73,7 +73,7 @@ try {
 	PreparedStatement pstmtUser;
 	pstmtUser = con.prepareStatement(UserSQL);
 	ResultSet rstUser = pstmtUser.executeQuery();
-	rstUser.next();
+	rstUser.first();
 	out.print("<div class=\"container\">"+
 			"<div class=\"page-header\">"+
 		    	"<h1>"+rst.getString("pname")+"</h1>"+
