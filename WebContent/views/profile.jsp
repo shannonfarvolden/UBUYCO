@@ -147,9 +147,9 @@
 		ResultSet itemsBought = pstmtItemsBought.executeQuery();
 
 		out.println("<br><div class=\"page-header\">" + "<h1>Items Bought</h1>" + "</div>");
-		if (!itemsBought.first()) {
-			out.println("Nothing to show");
-		}
+		//if (!itemsBought.first()) {
+			//out.println("Nothing to show");
+		//}
 		out.print("<div class=\"row\">");
 		while (itemsBought.next()) {
 			out.print("<div class=\"col-md-4\">"+
@@ -178,24 +178,29 @@
 			pstmtAddComment.execute();
 		}
 		
-		
-		out.print("<div class=\"page-header\"><h1>Comments</h1></div>");
-		String dispCommentSQL = "SELECT subject, content, username FROM Comment, User WHERE Comment.commenter=User.uid AND receiver = "+userID;
-		PreparedStatement pstmtDispComments = con.prepareStatement(dispCommentSQL);
-		ResultSet comments = pstmtDispComments.executeQuery();
-		while (comments.next()) {
-			out.print("<h3>"+comments.getString("subject")+"</h3><br>"+comments.getString("content")+"<br><i>"+comments.getString("username")+"</i>");
-		}
-		
-    	out.print("<form action=\"profile.jsp?uid="+userID+"\" method=\"post\">"+
-    				"<input type=\"text\" name=\"subject\" value=\"Subject of Comment\">"+
-    				"<textarea class=\"form-control\" id=\"txtArea\" rows=\"10\" cols=\"50\" name=\"comment\">Leave a comment...</textarea></br>"+
-    				"<input type=\"submit\" value=\"Submit\" class=\"btn btn-default\">"+
-    		    "</form>");
 	}
-} catch (SQLException ex) {
+	out.print("<div class=\"page-header\"><h1>Comments</h1></div>");
+	String dispCommentSQL = "SELECT subject, content, username FROM Comment, User WHERE Comment.commenter=User.uid AND receiver = "+userID;
+	PreparedStatement pstmtDispComments = con.prepareStatement(dispCommentSQL);
+	ResultSet comments = pstmtDispComments.executeQuery();
+	if (!comments.next()) {out.print("None yet.");}
+	while (comments.next()) {
+		out.print("<h3>"+comments.getString("subject")+"</h3><br>"+comments.getString("content")+"<br><i>"+comments.getString("username")+"</i>");
+	}
+	
+	if(!yourPage) {
+		out.print("<form action=\"profile.jsp?uid="+userID+"\" method=\"post\">"+
+				"<input type=\"text\" name=\"subject\" value=\"Subject of Comment\">"+
+				"<textarea class=\"form-control\" id=\"txtArea\" rows=\"10\" cols=\"50\" name=\"comment\">Leave a comment...</textarea></br>"+
+				"<input type=\"submit\" value=\"Submit\" class=\"btn btn-default\">"+
+		    "</form>");
+	}
+	
+} 
+catch (SQLException ex) {
 		out.println(ex);
-	} finally {
+} 
+finally {
 		try {
 			if (con != null) {
 				con.close();
