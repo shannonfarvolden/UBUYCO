@@ -119,7 +119,7 @@
 					while (rst.next()) {
 						session.setAttribute("authenticatedUser", username);
 						session.setAttribute("username", username);
-		%><jsp:forward page="profile.jsp"></jsp:forward>
+		%><jsp:forward page="home.jsp"></jsp:forward>
 		<%
 			}
 				}

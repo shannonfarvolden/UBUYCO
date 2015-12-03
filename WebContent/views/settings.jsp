@@ -72,6 +72,15 @@
 					class="form-control" name="email" id="email" placeholder="Email">
 			</div>
 			<div class="form-group">
+				<label for="description">Description</label> <input type="text"
+					class="form-control" name="description" id="description" placeholder="Description">
+			</div>
+			<div>
+				<b>Show Email</b>
+				<input type="radio" name="showEmail" value="true" checked> Yes
+				<input type="radio" name="showEmail" value="false"> No
+			</div>
+			<div class="form-group">
 				<label for="password1">Password</label> <input type="password"
 					class="form-control" name="password" id="password1" placeholder="Password">
 			</div>

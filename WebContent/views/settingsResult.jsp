@@ -68,11 +68,16 @@
 
 					String username = request.getParameter("username");
 					String email = request.getParameter("email");
+					String description = request.getParameter("description");
 					String password = request.getParameter("password");
 					String password2 = request.getParameter("password2");
 					String currname = (String) session.getAttribute("username");
+					String showE = request.getParameter("showEmail");
+					boolean showEmail = Boolean.parseBoolean(showE);
+					
 					boolean hasUsername = username != null && !username.equals("");
 					boolean hasEmail = email != null && !email.equals("");
+					boolean hasDesc = email !=null && !description.equals("");
 					boolean hasPassword = password != null && !password.equals("");
 					boolean hasPassword2 = password2 != null && !password2.equals("");
 					boolean passwordMatch = password != null && !password.equals("") && password2 != null
@@ -82,6 +87,8 @@
 						out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing username!</div>");
 					if (!hasEmail)
 						out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing email!</div>");
+					if (!hasDesc)
+						out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing description!</div>");
 					if (!hasPassword)
 						out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing password!</div>");
 					if (!hasPassword2)
@@ -90,14 +97,12 @@
 					if (!passwordMatch)
 						out.println(
 								"<div class=\"alert alert-danger\" role=\"alert\">Your password confirmation is incorrect!</div>");
-					if(!hasUsername || !hasEmail ||!hasPassword ||!hasPassword2 || !password.equals(password2))
+					if(!hasUsername || !hasEmail ||!hasPassword || !hasDesc ||!hasPassword2 || !password.equals(password2))
 						out.println("<a class=\"btn btn-default\" href=\"settings.jsp\">Back to Settings</a>");
 					
-					if (hasUsername && hasEmail && hasPassword && hasPassword2 && password.equals(password2)) {
+					if (hasUsername && hasEmail && hasDesc &&hasPassword && hasPassword2 && password.equals(password2)) {
 
-						//temp pid, replace with item clicked on
-						String sql = "UPDATE User SET username = '" + username + "', email='" + email + "', password = '"
-								+ password + "' " + "WHERE username = '" + currname + "'";
+						String sql = "UPDATE User SET username = '" + username + "', password='"+password+"', email='" + email + "', description = '"+description+"', showEmail="+showEmail+" WHERE username = '" + currname + "'";
 						PreparedStatement pstmt = con.prepareStatement(sql);
 						pstmt.execute();
 						out.println("<div class=\"alert alert-success\" role=\"alert\">Successfully Edited Your Profile. Please log out and log back in with your new username </div>");
