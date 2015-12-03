@@ -121,11 +121,7 @@ try {
 	    	"</form>"+
 		"</div>"+
 
-		"<h3>Comments</h3>"+
-		"<form action=>"+
-		    "​<textarea class=\"form-control\" id=\"txtArea\" rows=\"3\" cols=\"70\"></textarea><br>"+
-		    "<button type=\"submit\" class=\"btn btn-default\">Submit</button>"+
-		"</form>"+
+		
 
 		"</div>");
 }
