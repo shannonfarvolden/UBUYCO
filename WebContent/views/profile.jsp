@@ -177,7 +177,7 @@
 	String dispCommentSQL = "SELECT subject, content, username FROM Comment, User WHERE Comment.commenter=User.uid AND receiver = "+userID;
 	PreparedStatement pstmtDispComments = con.prepareStatement(dispCommentSQL);
 	ResultSet comments = pstmtDispComments.executeQuery();
-	
+
 	while (comments.next()) {
 		out.print("<h3>"+comments.getString("subject")+"</h3><br>"+comments.getString("content")+"<br><i>"+comments.getString("username")+"</i>");
 	}
