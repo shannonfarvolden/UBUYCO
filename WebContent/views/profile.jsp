@@ -77,7 +77,7 @@
     try {
     	Class.forName("com.mysql.jdbc.Driver");
 		con = DriverManager.getConnection(url, uid, pw);
-		
+		String currUserID = null;
 		
 		
 		if (userName == null) {}
@@ -87,7 +87,7 @@
 			ResultSet rst = pstmt.executeQuery();
 			
 			if (rst.first()) {
-				String currUserID = rst.getString("uid");
+				currUserID = rst.getString("uid");
 				if (userID == null) {userID = currUserID;}	
 				yourPage = userID.equals(currUserID);
 			}
@@ -102,19 +102,22 @@
 		out.print("<div class=\"container\">"+
 		
 	    "<div class=\"row\">"+
-	        "<div class=\"col-xs-6 col-md-3\">"+
-	            "<div class=\"thumbnail\">"+
-	                "<img src=\"../WebContent/assets/"+pageUser.getString("username")+".jpeg\" alt=\"Item Image\">"+pageUser.getString("username")+
-	            "</div>"+
-	        "</div>"+
 	        "<div class=\"page-header\">"+
-	        "<h1>"+pageUser.getString("username")+"</h1>"+
-	    	"</div>"+
+	        "<h1>"+pageUser.getString("username")+"</h1>");
+		
+	        if (pageUser.getBoolean("showemail")) {out.print("<h5><a href=\"mailto:"+pageUser.getString("email")+"?Subject=UBUYCO\" target=\"_top\">Send Mail</a></h5>");}
+	    	
+	        out.print("</div>"+
 	    "</div>"+
-		"<form name=\"input\" action=\"uploadPic.jsp\" method=\"POST\" enctype=\"multipart/form-data\">"+
-	    	"<input type='file' name=\"fileToUpload\" id=\"fileToUpload\"/>"+
-			"<input type=\"submit\" value=\"Upload\" />"+
-		"</form>"+
+	    ""+
+	    "<div class=\"panel panel-default\">"+
+	        "<div class=\"panel-heading\">"+
+	            "<h3 class=\"panel-title\">Description</h3>"+
+	        "</div>"+
+	        "<div class=\"panel-body\">"+
+	        	pageUser.getString("description")+
+	        "</div></div>"+
+	        	
 		
 	    "<div class=\"page-header\">"+
 	        "<h1>Items on Sale</h1>"+
@@ -127,11 +130,6 @@
 			
 			while(itemsSold.next()) {
 				out.print("<div class=\"row\">"+
-			        "<div class=\"col-xs-6 col-md-3\">"+
-			            "<div class=\"thumbnail\">"+
-			                "<img src=\"../assets/"+itemsSold.getString("pic")+"\" alt=\"Item Image\">"+
-			            "</div>"+
-			        "</div>"+
 			        "<div class=\"col-md-6\">"+
 			            "<div class=\"panel panel-default\">"+
 			                "<div class=\"panel-heading\">"+
@@ -162,11 +160,6 @@
 		    if (!itemsBought.first()) {out.println("Nothing to show");}
 		    while (itemsBought.next()) {
 			    out.print("<div class=\"row\">"+
-			        "<div class=\"col-xs-6 col-md-3\">"+
-			            "<div class=\"thumbnail\">"+
-			                "<img src=\"../assets/"+itemsBought.getString("pic")+"\" alt=\"Item Image\">"+
-			            "</div>"+
-			        "</div>"+
 			        "<div class=\"col-md-6\">"+
 			            "<div class=\"panel panel-default\">"+
 			                "<div class=\"panel-heading\">"+
@@ -183,6 +176,33 @@
 			        "</div>"+
 			    "</div>");
 		    }
+		}
+		else {
+			String comment = request.getParameter("comment");
+			String subject = request.getParameter("subject");
+			
+			if (comment == null) {}
+			else if(currUserID != null) {
+				String addCommentSQL = "INSERT INTO Comment (subject,content,commenter,receiver) VALUES(\""+subject+"\",\""+comment+"\","+currUserID+","+userID+")";
+				PreparedStatement pstmtAddComment = con.prepareStatement(addCommentSQL);
+				pstmtAddComment.execute();
+			}
+			
+			
+			out.print("<div class=\"page-header\"><h1>Comments</h1></div>");
+
+			String dispCommentSQL = "SELECT subject, content, username FROM Comment, User WHERE Comment.commenter=User.uid AND receiver = "+userID;
+			PreparedStatement pstmtDispComments = con.prepareStatement(dispCommentSQL);
+			ResultSet comments = pstmtDispComments.executeQuery();
+			while (comments.next()) {
+				out.print("<h3>"+comments.getString("subject")+"</h3><br>"+comments.getString("content")+"<br><i>"+comments.getString("username")+"</i>");
+			}
+			
+	    	out.print("<form action=\"profile.jsp?uid="+userID+"\" method=\"post\">"+
+	    				"<input type=\"text\" name=\"subject\" value=\"Subject of Comment\">"+
+	    				"<textarea class=\"form-control\" id=\"txtArea\" rows=\"10\" cols=\"50\" name=\"comment\">Leave a comment...</textarea></br>"+
+	    				"<input type=\"submit\" value=\"Submit\" class=\"btn btn-default\">"+
+	    		    "</form>");
 		}
     }
     catch (SQLException ex) {
