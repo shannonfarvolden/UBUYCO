@@ -62,6 +62,7 @@
     </div>
     <%
 
+    String userName = (String) session.getAttribute("authenticatedUser");
     
     Connection con = null;
     String url = "jdbc:mysql://cosc304.ok.ubc.ca/group3";
@@ -74,6 +75,11 @@
     	String prodID = request.getParameter("pid");
 		String userID = request.getParameter("uid");
 		String words = request.getParameter("message");
+		
+		String currUserSQL = "SELECT uid FROM User where username = '"+userName+"'";
+		PreparedStatement pstmtCurrUser = con.prepareStatement(currUserSQL);
+		ResultSet currUser = pstmtCurrUser.executeQuery();
+		currUser.first();
 		
         String UserSQL = "SELECT username FROM User WHERE uid = "+userID;
     	PreparedStatement pstmtUser;
@@ -96,12 +102,10 @@
  		
  		    
     	String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
-    	out.println(timeStamp);
-    	
     	
     	if (words != null) {
     		String addMess = "INSERT INTO Message (pid,senttime,receiver,content,sender,isRead) "+
-					"VALUES("+prodID+",\""+timeStamp+"\","+userID+",\""+words+"\",1,0); ";
+					"VALUES("+prodID+",\""+timeStamp+"\","+userID+",\""+words+"\","+currUser.getInt("uid")+",0); ";
 	
 			
 			PreparedStatement insert = con.prepareStatement(addMess);
