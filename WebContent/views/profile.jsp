@@ -77,14 +77,17 @@
     try {
     	Class.forName("com.mysql.jdbc.Driver");
 		con = DriverManager.getConnection(url, uid, pw);
+		String currUserID = null;
 		
 		if(userName != null) {
 	String SQL = "SELECT * FROM User WHERE username LIKE \""+userName+"\"";
 	PreparedStatement pstmt = con.prepareStatement(SQL);
 	ResultSet rst = pstmt.executeQuery();
 	
+	
+	
 	if (rst.first()) {
-		String currUserID = rst.getString("uid");
+		currUserID = rst.getString("uid");
 		if (userID == null) {userID = currUserID;}	
 		yourPage = userID.equals(currUserID);
 	}
@@ -98,15 +101,17 @@
 		out.print("<div class=\"container\">"+
 		"<div class=\"jumbotron\">"+
 		
-		"<h1>" + pageUser.getString("username") + "</h1><p>"+pageUser.getString("email")+"</p>" + "</div>"+
-		"<div class=\"page-header\">" + "<h1>Items on Sale</h1>" + "</div>");
+		"<h1>" + pageUser.getString("username") + "</h1>");
+		 if (pageUser.getBoolean("showemail")) {out.print("<p><a href=\"mailto:"+pageUser.getString("email")+"?Subject=UBUYCO\" target=\"_top\">Send Mail</a></p>");}
+		out.print("<p>Description: "+pageUser.getString("description")+"</p></div>");
+		out.print("<div class=\"page-header\">" + "<h1>Items on Sale</h1>" + "</div>");
 
 		String itemsSoldSQL = "SELECT * FROM Item WHERE userselling = " + userID;
 		PreparedStatement pstmtItemsSold = con.prepareStatement(itemsSoldSQL);
 		ResultSet itemsSold = pstmtItemsSold.executeQuery();
-
+		out.print("<div class=\"row\">");
 		while (itemsSold.next()) {
-			out.print("<div class=\"col-md-4 col-sm-4 \">"+
+			out.print("<div class=\"col-md-4\">"+
 	   			  	"  	<a href=\"item.jsp?pid="+ itemsSold.getInt("pid")+ " \">"+
 					"  		<div class=\"panel panel-default\">"+
 					"  			<div class=\"panel-heading \">"+
@@ -121,29 +126,59 @@
 				out.print("<a href=\"editItem.jsp?pid="+ itemsSold.getInt("pid")+" \" class=\"btn btn-lg btn-primary\">Edit</a></div>");
 			}
 		}
+		out.print("</div>");
 
 		if (yourPage == true) {
 			String itemsBoughtSQL = "SELECT * FROM Item WHERE boughtby = " + userID;
 			PreparedStatement pstmtItemsBought = con.prepareStatement(itemsBoughtSQL);
 			ResultSet itemsBought = pstmtItemsBought.executeQuery();
 
-			out.println("<div class=\"page-header\">" + "<h1>Items Bought</h1>" + "</div>");
+			out.println("<br><div class=\"page-header\">" + "<h1>Items Bought</h1>" + "</div>");
 			if (!itemsBought.first()) {
 				out.println("Nothing to show");
 			}
+			out.print("<div class=\"row\">");
 			while (itemsBought.next()) {
-				out.print("<div class=\"row\">" + "<div class=\"col-xs-6 col-md-3\">"
-						+ "<div class=\"thumbnail\">" + "<img src=\"../assets/" + itemsBought.getString("pic")
-						+ "\" alt=\"Item Image\">" + "</div>" + "</div>" + "<div class=\"col-md-6\">"
-						+ "<div class=\"panel panel-default\">" + "<div class=\"panel-heading\">"
-						+ "<h3 class=\"panel-title\">Item Description</h3>" + "</div>"
-						+ "<div class=\"panel-body\">" + itemsBought.getString("description") + "</div>"
-						+ "</div>" + "</div>" + "<div class=\"input-group col-md-6\">"
-						+ "<span class=\"input-group-addon\">"
-						+ currFormat.format(itemsBought.getDouble("price")) + "</span>"
-						+ "<input type=\"text\" class=\"form-control\" aria-label=\"Offer Price\">" + "</div>"
-						+ "</div>" + "</div>");
+				out.print("<div class=\"col-md-4\">"+
+		   			  	"  	<a href=\"item.jsp?pid="+ itemsBought.getInt("pid")+ " \">"+
+						"  		<div class=\"panel panel-default\">"+
+						"  			<div class=\"panel-heading \">"+
+						"  				<h3 class=\"panel-title\">"+ itemsBought.getString("description") +"</h3>"+
+						"  			</div>"+
+						"  			<div class=\"panel-body\">"+ currFormat.format(itemsBought.getDouble("price"))+
+						"  			</div>"+
+						"  		</div>"+
+						"  	</a>"+
+						"</div>"
+						);
 			}
+			out.print("</div>");
+		}
+		else {
+			String comment = request.getParameter("comment");
+			String subject = request.getParameter("subject");
+			
+			if (comment == null) {}
+			else if(currUserID != null) {
+				String addCommentSQL = "INSERT INTO Comment (subject,content,commenter,receiver) VALUES(\""+subject+"\",\""+comment+"\","+currUserID+","+userID+")";
+				PreparedStatement pstmtAddComment = con.prepareStatement(addCommentSQL);
+				pstmtAddComment.execute();
+			}
+			
+			
+			out.print("<div class=\"page-header\"><h1>Comments</h1></div>");
+			String dispCommentSQL = "SELECT subject, content, username FROM Comment, User WHERE Comment.commenter=User.uid AND receiver = "+userID;
+			PreparedStatement pstmtDispComments = con.prepareStatement(dispCommentSQL);
+			ResultSet comments = pstmtDispComments.executeQuery();
+			while (comments.next()) {
+				out.print("<h3>"+comments.getString("subject")+"</h3><br>"+comments.getString("content")+"<br><i>"+comments.getString("username")+"</i>");
+			}
+			
+	    	out.print("<form action=\"profile.jsp?uid="+userID+"\" method=\"post\">"+
+	    				"<input type=\"text\" name=\"subject\" value=\"Subject of Comment\">"+
+	    				"<textarea class=\"form-control\" id=\"txtArea\" rows=\"10\" cols=\"50\" name=\"comment\">Leave a comment...</textarea></br>"+
+	    				"<input type=\"submit\" value=\"Submit\" class=\"btn btn-default\">"+
+	    		    "</form>");
 		}
 	} catch (SQLException ex) {
 		out.println(ex);
