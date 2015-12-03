@@ -24,22 +24,22 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">UBUYCO</a>
+            <a class="navbar-brand" href="home.jsp">UBUYCO</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="#">Create A Post <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">About Us</a></li>
+                <li><a href="createItem.jsp">Create A Post <span class="sr-only">(current)</span></a></li>
+                <li><a href="aboutUs.html">About Us</a></li>
             </ul>
-            <form class="navbar-form navbar-left" role="search">
+            <form class="navbar-form navbar-left" role="search" action="browse.jsp">
                 <div class="form-group">
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" name="pname">
                 </div>
                 <button type="submit" class="btn btn-default">Search</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <!--if user not login display login-->
-                <li><a href="#">Login</a></li>
+                <li><a href="login.jsp">Login</a></li>
                 <!--else display username-->
                 <!--<li><a href="#">User Name</a></li>-->
             </ul>
@@ -49,7 +49,6 @@
 <!--end nav-->
 
 <%
-String ID = request.getParameter("pid");
 NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 
 Connection con = null;
@@ -58,22 +57,29 @@ String uid = "group3";
 String pw = "group3";
 
 try {
+	
+	String prodID = request.getParameter("pid");
+	
+	Class.forName("com.mysql.jdbc.Driver");
 	con = DriverManager.getConnection(url, uid, pw);
 	String SQL = "SELECT * "+
 			"FROM Item "+
-			"WHERE pid="+ID;
-
+			"WHERE pid="+prodID;
+	
 	PreparedStatement pstmt;
 	pstmt = con.prepareStatement(SQL);
 	ResultSet rst = pstmt.executeQuery();
 	
 	rst.first();
 	
-	String UserSQL = "SELECT username FROM User WHERE uid = "+rst.getInt("userselling");
+	String userID = rst.getString("userselling");
+	
+	String UserSQL = "SELECT username FROM User WHERE uid = "+userID;
 	PreparedStatement pstmtUser;
 	pstmtUser = con.prepareStatement(UserSQL);
 	ResultSet rstUser = pstmtUser.executeQuery();
 	rstUser.first();
+
 	out.print("<div class=\"container\">"+
 			"<div class=\"page-header\">"+
 		    	"<h1>"+rst.getString("pname")+"</h1>"+
@@ -83,7 +89,9 @@ try {
 		    "<div class=\"thumbnail\">"+
 		        "<img src=\"../assets/placeholder.png\" alt=\"Item Image\">"+
 		    "</div>"+
-		    "<a href=\"#\"><h3>"+rstUser.getString("username")+"</h3></a>"+
+		    "<div class=\"col-xs-6 col-md-3\">"+
+		        "<h3>Seller: <a href=\"profile.jsp?uid="+rst.getInt("userselling")+"\">"+rstUser.getString("username")+"</a></h3>"+
+		    "</div>"+
 		"</div>");
 
 		out.print("<div class=\"col-md-offset-4\">"+
@@ -112,12 +120,13 @@ try {
 		            rst.getString("pcondition")+
 		        "</div>"+
 		    "</div>"+
-
-		    "<button type=\"submit\" class=\"btn btn-lg btn-primary\">Buy Now</button>"+
+		    "<form action=\"buyMessage.jsp?pid="+prodID+"&uid="+userID+"\" method=\"post\">"+
+			"<input type=\"submit\" value=\"Buy Now\" class=\"btn btn-default\">"+
+	    	"</form>"+
 		"</div>"+
 
 		"<h3>Comments</h3>"+
-		"<form>"+
+		"<form action=>"+
 		    "​<textarea class=\"form-control\" id=\"txtArea\" rows=\"3\" cols=\"70\"></textarea><br>"+
 		    "<button type=\"submit\" class=\"btn btn-default\">Submit</button>"+
 		"</form>"+

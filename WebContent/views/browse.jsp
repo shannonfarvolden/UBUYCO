@@ -24,14 +24,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="home.html">UBUYCO</a>
+            <a class="navbar-brand" href="home.jsp">UBUYCO</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="createItem.jsp">Create A Post <span class="sr-only">(current)</span></a></li>
                 <li><a href="aboutUs.html">About Us</a></li>
             </ul>
-            <form class="navbar-form navbar-left" role="search">
+            <form class="navbar-form navbar-left" role="search" action="browse.jsp">
                 <div class="form-group">
                     <input type="text" class="form-control" name="pname" size="50">
                 </div>

@@ -42,7 +42,15 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <!--if user not login display login-->
-                <li><a href="login.jsp">Login</a></li>
+                <%
+			boolean isAuthenticated = session.getAttribute("username") == null ? false : true;
+			if (isAuthenticated) {
+				out.println("<li><a href='profile.jsp'>"+session.getAttribute("username")+"</a></li>");
+				out.println("<li><a href='logout.jsp'>Logout</a></li>");
+			} else {
+				out.println("<li><a href='login.jsp'>Login</a></li>");
+			}
+		%>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
