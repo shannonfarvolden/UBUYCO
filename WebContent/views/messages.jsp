@@ -97,7 +97,7 @@
     						out.print(" <a href=\"messageHandler.jsp?offer=1&pid="+rst.getString("pid")+"&mid="+rst.getString("mid")+"\">Accept</a>|<a href=\"messageHandler.jsp?offer=2&pid="
     						+rst.getString("pid")+"&mid="+rst.getString("mid")+"\">Decline</a> <br><br><br>");}
     					else {
-    						out.print(" <b>Deal Complete</b> <br><br><br>");
+    						out.print(" <a href=\"messageHandler.jsp?offer=3?pid="+rst.getString("pid")+"&mid="+rst.getString("mid")+"\"><b>Deal Complete</b></a> <br><br><br>");
     					}
     					
     			
