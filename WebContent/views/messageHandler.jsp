@@ -115,7 +115,9 @@
 			out.println("<h3>Offer Declined!</h3>");
 			acceptance = "\"I reject your offer!\");";
 		}
-		
+		else {
+			out.println("Deal completed");
+		}
 		responseMessage = responseMessage + acceptance;
 		pstmtResponse = con.prepareStatement(responseMessage);
 		pstmtResponse.execute();
