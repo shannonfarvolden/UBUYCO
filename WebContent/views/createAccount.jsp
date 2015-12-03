@@ -125,7 +125,7 @@
 					session.setAttribute( "authenticatedUser", name );
 					session.setAttribute( "username", username );
 					session.setAttribute( "password", password1 );
-					%><jsp:forward page="profile.jsp"></jsp:forward><%
+					%><jsp:forward page="home.jsp"></jsp:forward><%
 				}
 				else{
 					out.println("<div class=\"container\"><br><div class=\"col-md-offset-2 col-md-8\"><div class=\"alert alert-danger\" role=\"alert\">Passwords do not match</div></div></div>");
