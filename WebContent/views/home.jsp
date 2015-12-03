@@ -1,5 +1,5 @@
-<%@ page import="java.sql.*" %>
-<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.text.NumberFormat"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF8"%>
 <!DOCTYPE html>
 <html>
@@ -31,19 +31,25 @@
 				<ul class="nav navbar-nav">
 					<li><a href="createItem.jsp">Create A Post <span
 							class="sr-only">(current)</span></a></li>
-					<li><a href="aboutUs.jsp">About Us</a></li>
+					<li><a href="aboutus.jsp">About Us</a></li>
 				</ul>
-				<form class="navbar-form navbar-left" role="search" action="browse.jsp">
+				<form class="navbar-form navbar-left" role="search"
+					action="browse.jsp">
 					<div class="form-group">
 						<input type="text" class="form-control" name="pname">
 					</div>
 					<button type="submit" class="btn btn-default">Search</button>
 				</form>
 				<ul class="nav navbar-nav navbar-right">
-					<!--if user not login display login-->
-					<li><a href="login.jsp">Login</a></li>
-					<!--else display username-->
-					<!--<li><a href="#">User Name</a></li>-->
+					<%
+						boolean isAuthenticated = session.getAttribute("username") == null ? false : true;
+						if (isAuthenticated) {
+							out.println("<li><a href='profile.jsp'>" + session.getAttribute("username") + "</a></li>");
+							out.println("<li><a href='logout.jsp'>Logout</a></li>");
+						} else {
+							out.println("<li><a href='login.jsp'>Login</a></li>");
+						}
+					%>
 				</ul>
 			</div>
 		</div>
@@ -53,7 +59,7 @@
 		<div class="page-header">
 			<h1 class="text-center">Welcome to UBuyCO</h1>
 		</div>
-		
+
 
 		<div class="panel panel-default">
 			<div class="panel-body">
@@ -62,14 +68,16 @@
 						<div class="thumbnail">
 							<img src="../assets/textbooks.jpg">
 							<h3>Text Books</h3>
-							<a href="browse.jsp?category=Textbooks" class="btn btn-primary" role="button">Browse</a>
+							<a href="browse.jsp?category=Textbooks" class="btn btn-primary"
+								role="button">Browse</a>
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-3">
 						<div class="thumbnail">
 							<img src="../assets/labBooks.jpg">
 							<h3>Lab Books</h3>
-							<a href="browse.jsp?category=Lab+Books" class="btn btn-primary" role="button">Browse</a>
+							<a href="browse.jsp?category=Lab+Books" class="btn btn-primary"
+								role="button">Browse</a>
 						</div>
 					</div>
 
@@ -77,14 +85,16 @@
 						<div class="thumbnail">
 							<img src="../assets/notes.jpg">
 							<h3>Notes</h3>
-							<a href="browse.jsp?category=Notes" class="btn btn-primary" role="button">Browse</a>
+							<a href="browse.jsp?category=Notes" class="btn btn-primary"
+								role="button">Browse</a>
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-3">
 						<div class="thumbnail">
 							<img src="../assets/labEquipt.jpg">
 							<h3>Lab/Class Equipment</h3>
-							<a href="browse.jsp?category=Lab%2FClass+Equipment" class="btn btn-primary" role="button">Browse</a>
+							<a href="browse.jsp?category=Lab%2FClass+Equipment"
+								class="btn btn-primary" role="button">Browse</a>
 						</div>
 					</div>
 				</div>
@@ -94,7 +104,8 @@
 						<div class="thumbnail">
 							<img src="../assets/clothing.jpg">
 							<h3>Clothes/Shoes</h3>
-							<a href="browse.jsp?category=Clothes%2FShoes" class="btn btn-primary" role="button">Browse</a>
+							<a href="browse.jsp?category=Clothes%2FShoes"
+								class="btn btn-primary" role="button">Browse</a>
 						</div>
 					</div>
 
@@ -103,7 +114,8 @@
 							<img src="../assets/electronics.jpg">
 							<div class="caption">
 								<h3>Electronics</h3>
-								<a href="browse.jsp?category=Electronics" class="btn btn-primary" role="button">Browse</a>
+								<a href="browse.jsp?category=Electronics"
+									class="btn btn-primary" role="button">Browse</a>
 							</div>
 						</div>
 					</div>
@@ -112,14 +124,16 @@
 						<div class="thumbnail">
 							<img src="../assets/householdItem.jpg">
 							<h3>Household Items</h3>
-							<a href="browse.jsp?category=Household+Items" class="btn btn-primary" role="button">Browse</a>
+							<a href="browse.jsp?category=Household+Items"
+								class="btn btn-primary" role="button">Browse</a>
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-3">
 						<div class="thumbnail">
 							<img src="../assets/misc.jpg">
 							<h3>Miscellaneous</h3>
-							<a href="browse.jsp?category=Miscellaneous" class="btn btn-primary" role="button">Browse</a>
+							<a href="browse.jsp?category=Miscellaneous"
+								class="btn btn-primary" role="button">Browse</a>
 						</div>
 					</div>
 				</div>

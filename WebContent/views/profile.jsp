@@ -32,7 +32,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="createItem.jsp">Create A Post <span class="sr-only">(current)</span></a></li>
-                <li><a href="aboutUs.html">About Us</a></li>
+                <li><a href="aboutus.jsp">About Us</a></li>
             </ul>
             <form class="navbar-form navbar-left" role="search" action="browse.jsp">
                 <div class="form-group">
@@ -42,16 +42,16 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <!--if user not login display login-->
-         	<%
-			boolean isAuthenticated = session.getAttribute("username") == null ? false : true;
-			if (isAuthenticated) {
-				out.println("<li><a href='profile.jsp'>"+session.getAttribute("username")+"</a></li>");
-				out.println("<li><a href='logout.jsp'>Logout</a></li>");
-			} else {
-				out.println("<li><a href='login.jsp'>Login</a></li>");
-			}
-			%>
-            </ul>
+					<%
+						boolean isAuthenticated = session.getAttribute("username") == null ? false : true;
+						if (isAuthenticated) {
+							out.println("<li><a href='profile.jsp'>" + session.getAttribute("username") + "</a></li>");
+							out.println("<li><a href='logout.jsp'>Logout</a></li>");
+						} else {
+							out.println("<li><a href='login.jsp'>Login</a></li>");
+						}
+					%>
+				</ul>
         </div>
         <!-- /.navbar-collapse -->
     </div>
@@ -63,7 +63,7 @@
 <%@ include file="auth.jsp"%>
 
 <%
-    String userName = (String) session.getAttribute("authenticatedUser");
+	String userName = (String) session.getAttribute("authenticatedUser");
     String userID = request.getParameter("uid");
         if (userID == null) {}		
     Connection con = null;
@@ -79,15 +79,15 @@
 		con = DriverManager.getConnection(url, uid, pw);
 		
 		if(userName != null) {
-			String SQL = "SELECT * FROM User WHERE username LIKE \""+userName+"\"";
-			PreparedStatement pstmt = con.prepareStatement(SQL);
-			ResultSet rst = pstmt.executeQuery();
-			
-			if (rst.first()) {
-				String currUserID = rst.getString("uid");
-				if (userID == null) {userID = currUserID;}	
-				yourPage = userID.equals(currUserID);
-			}
+	String SQL = "SELECT * FROM User WHERE username LIKE \""+userName+"\"";
+	PreparedStatement pstmt = con.prepareStatement(SQL);
+	ResultSet rst = pstmt.executeQuery();
+	
+	if (rst.first()) {
+		String currUserID = rst.getString("uid");
+		if (userID == null) {userID = currUserID;}	
+		yourPage = userID.equals(currUserID);
+	}
 		}
 		
 		String pageUserSQL = "SELECT * FROM User WHERE uid = "+userID;
@@ -96,105 +96,66 @@
 		pageUser.first();
 		
 		out.print("<div class=\"container\">"+
+		"<div class=\"jumbotron\">"+
 		
-	    "<div class=\"row\">"+
-	        "<div class=\"col-xs-6 col-md-3\">"+
-	            "<div class=\"thumbnail\">"+
-	                "<img src=\"../WebContent/assets/"+pageUser.getString("username")+".jpeg\" alt=\"Item Image\">"+pageUser.getString("username")+
-	            "</div>"+
-	        "</div>"+
-	        "<div class=\"page-header\">"+
-	        "<h1>"+pageUser.getString("username")+"</h1>"+
-	    	"</div>"+
-	    "</div>"+
-		"<form name=\"input\" action=\"uploadPic.jsp\" method=\"POST\" enctype=\"multipart/form-data\">"+
-	    	"<input type='file' name=\"fileToUpload\" id=\"fileToUpload\"/>"+
-			"<input type=\"submit\" value=\"Upload\" />"+
-		"</form>"+
-		
-	    "<div class=\"page-header\">"+
-	        "<h1>Items on Sale</h1>"+
-	    "</div>");
-	    
-		
-			String itemsSoldSQL = "SELECT * FROM Item WHERE userselling = "+userID;
-			PreparedStatement pstmtItemsSold = con.prepareStatement(itemsSoldSQL);
-			ResultSet itemsSold = pstmtItemsSold.executeQuery();
-			
-			while(itemsSold.next()) {
-				out.print("<div class=\"row\">"+
-			        "<div class=\"col-xs-6 col-md-3\">"+
-			            "<div class=\"thumbnail\">"+
-			                "<img src=\"../assets/"+itemsSold.getString("pic")+"\" alt=\"Item Image\">"+
-			            "</div>"+
-			        "</div>"+
-			        "<div class=\"col-md-6\">"+
-			            "<div class=\"panel panel-default\">"+
-			                "<div class=\"panel-heading\">"+
-			                    "<h3 class=\"panel-title\">Item Description</h3>"+
-			                "</div>"+
-			                "<div class=\"panel-body\">"+
-			                    itemsSold.getString("description")+
-			                "</div>"+
-			            "</div>"+
-			        "</div>"+
-			        "<div class=\"input-group col-md-6\">"+
-			            "<span class=\"input-group-addon\">"+currFormat.format(itemsSold.getDouble("price"))+"</span>"+
-			        "</div>"+
-			    "</div>");
-			    if (yourPage == false) {
-			    	out.print("<button type=\"button\" class=\"btn btn-lg btn-primary\">Buy Now</button>");
-			    }
+		"<h1>" + pageUser.getString("username") + "</h1><p>"+pageUser.getString("email")+"</p>" + "</div>"+
+		"<div class=\"page-header\">" + "<h1>Items on Sale</h1>" + "</div>");
+
+		String itemsSoldSQL = "SELECT * FROM Item WHERE userselling = " + userID;
+		PreparedStatement pstmtItemsSold = con.prepareStatement(itemsSoldSQL);
+		ResultSet itemsSold = pstmtItemsSold.executeQuery();
+
+		while (itemsSold.next()) {
+			out.print("<div class=\"col-md-4 col-sm-4 \">"+
+	   			  	"  	<a href=\"item.jsp?pid="+ itemsSold.getInt("pid")+ " \">"+
+					"  		<div class=\"panel panel-default\">"+
+					"  			<div class=\"panel-heading \">"+
+					"  				<h3 class=\"panel-title\">"+ itemsSold.getString("description") +"</h3>"+
+					"  			</div>"+
+					"  			<div class=\"panel-body\">"+ currFormat.format(itemsSold.getDouble("price"))+
+					"  			</div>"+
+					"  		</div>"+
+					"  	</a>"
+					);
+			if (yourPage == true) {
+				out.print("<a href=\"editItem.jsp?pid="+ itemsSold.getInt("pid")+" \" class=\"btn btn-lg btn-primary\">Edit</a></div>");
 			}
-			
-		  if (yourPage == true) {
-			String itemsBoughtSQL = "SELECT * FROM Item WHERE boughtby = "+userID;
+		}
+
+		if (yourPage == true) {
+			String itemsBoughtSQL = "SELECT * FROM Item WHERE boughtby = " + userID;
 			PreparedStatement pstmtItemsBought = con.prepareStatement(itemsBoughtSQL);
 			ResultSet itemsBought = pstmtItemsBought.executeQuery();
-			
-		    out.print("<div class=\"page-header\">"+
-		        "<h1>Items Bought</h1>"+
-		    "</div>");
-		    if (!itemsBought.first()) {out.println("Nothing to show");}
-		    while (itemsBought.next()) {
-			    out.print("<div class=\"row\">"+
-			        "<div class=\"col-xs-6 col-md-3\">"+
-			            "<div class=\"thumbnail\">"+
-			                "<img src=\"../assets/"+itemsBought.getString("pic")+"\" alt=\"Item Image\">"+
-			            "</div>"+
-			        "</div>"+
-			        "<div class=\"col-md-6\">"+
-			            "<div class=\"panel panel-default\">"+
-			                "<div class=\"panel-heading\">"+
-			                    "<h3 class=\"panel-title\">Item Description</h3>"+
-			                "</div>"+
-			                "<div class=\"panel-body\">"+
-			                    itemsBought.getString("description")+
-			                "</div>"+
-			            "</div>"+
-			        "</div>"+
-			        "<div class=\"input-group col-md-6\">"+
-			            "<span class=\"input-group-addon\">"+currFormat.format(itemsBought.getDouble("price"))+"</span>"+
-			            "<input type=\"text\" class=\"form-control\" aria-label=\"Offer Price\">"+
-			        "</div>"+
-			    "</div>"+
-			 "</div>");
-		    }
+
+			out.println("<div class=\"page-header\">" + "<h1>Items Bought</h1>" + "</div>");
+			if (!itemsBought.first()) {
+				out.println("Nothing to show");
+			}
+			while (itemsBought.next()) {
+				out.print("<div class=\"row\">" + "<div class=\"col-xs-6 col-md-3\">"
+						+ "<div class=\"thumbnail\">" + "<img src=\"../assets/" + itemsBought.getString("pic")
+						+ "\" alt=\"Item Image\">" + "</div>" + "</div>" + "<div class=\"col-md-6\">"
+						+ "<div class=\"panel panel-default\">" + "<div class=\"panel-heading\">"
+						+ "<h3 class=\"panel-title\">Item Description</h3>" + "</div>"
+						+ "<div class=\"panel-body\">" + itemsBought.getString("description") + "</div>"
+						+ "</div>" + "</div>" + "<div class=\"input-group col-md-6\">"
+						+ "<span class=\"input-group-addon\">"
+						+ currFormat.format(itemsBought.getDouble("price")) + "</span>"
+						+ "<input type=\"text\" class=\"form-control\" aria-label=\"Offer Price\">" + "</div>"
+						+ "</div>" + "</div>");
+			}
 		}
-    }
-    catch (SQLException ex) {
-    	out.println(ex);
-    }
-    finally {
-    	try {
+	} catch (SQLException ex) {
+		out.println(ex);
+	} finally {
+		try {
 			if (con != null) {
 				con.close();
 			}
-		} 
-		catch (SQLException ex) {
+		} catch (SQLException ex) {
 			out.println(ex);
 		}
-    }
+	}
 %>
 
 </div>

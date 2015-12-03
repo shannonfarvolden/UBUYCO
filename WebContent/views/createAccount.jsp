@@ -104,15 +104,15 @@
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(url, uid, pw);
-			//temp change userselling to person logged in
-			if (!hasName)
+			
+			/* if (!hasName)
 				out.println("<div class=\"alert alert-danger\" role=\"alert\">I can't track you in your home if you don't give me your name.</div>");
 			if (!hasUsername)
 				out.println("<div class=\"alert alert-danger\" role=\"alert\">Enter a username.</div>");
 			if (!hasEmail)
 				out.println("<div class=\"alert alert-danger\" role=\"alert\">Enter an email.  We won't spam you...promise.</div>");
 			if (!passwordsMatch)
-				out.println("<div class=\"alert alert-danger\" role=\"alert\">Your passwords don't match</div>");
+				out.println("<div class=\"alert alert-danger\" role=\"alert\">Your passwords don't match</div>"); */
 			if (hasName && hasUsername && passwordsMatch && hasEmail) {
 				String sql = "INSERT INTO User (username, email, password) VALUES ('"
 							+ username + "', '" + email + "', '" + password1 + "' );";

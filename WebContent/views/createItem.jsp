@@ -58,16 +58,9 @@
 		<div class="page-header">
 			<h1>Create an Item</h1>
 		</div>
-		<div class="row">
-			<div class="col-xs-6 col-md-3">
-				<div class="thumbnail">
-					<img src="../assets/placeholder.png" alt="Item Image">
-				</div>
-			</div>
-		</div>
-		<form action="createItem.jsp" method="POST">
 
-			<input type='file' name="fileToUpload" id="fileToUpload" /> <br>
+		<form action="createResult.jsp" method="POST">
+
 			<div class="col-md-8">
 				<div class="form-group">
 					<label for="itemName">Item</label> <input type="text"
@@ -106,58 +99,6 @@
 				<button type="submit" class="btn btn-default">Submit</button>
 			</div>
 		</form>
-	</div>
-	<br>
-	<div class="container">
-		<%
-			Connection con = null;
-			String url = "jdbc:mysql://cosc304.ok.ubc.ca/group3";
-			String uid = "group3";
-			String pw = "group3";
-			NumberFormat currFormat = NumberFormat.getCurrencyInstance();
-
-			String itemName = request.getParameter("itemName");
-			String price = request.getParameter("price");
-			String desc = request.getParameter("description");
-			String condition = request.getParameter("condition");
-			String category = request.getParameter("category");
-
-			boolean hasItem = itemName != null && !itemName.equals("");
-			boolean hasPrice = price != null && !price.equals("");
-			boolean hasDesc = desc != null && !desc.equals("");
-			boolean hasCon = condition != null && !condition.equals("");
-
-			if (!hasItem)
-				out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing item name</div>");
-			if (!hasPrice)
-				out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing price</div>");
-			if (!hasDesc)
-				out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing Description</div>");
-			if (!hasCon)
-				out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing Item Condition</div>");
-
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				con = DriverManager.getConnection(url, uid, pw);
-				//temp change userselling to person logged in
-				if (hasItem && hasPrice && hasDesc && hasCon) {
-					String sql = "INSERT INTO Item (pname, price, description, pcondition, issold, userselling, pcategory) VALUES ('"
-							+ itemName + "', '" + price + "', '" + desc + "', '" + condition + "', false, 3, '"
-							+ category + "' );";
-					PreparedStatement pstmt = con.prepareStatement(sql);
-					pstmt.execute();
-				}
-			} catch (SQLException ex) {
-				out.println(ex);
-			} finally {
-				try {
-					if (con != null)
-						con.close();
-				} catch (SQLException ex) {
-					out.println(ex);
-				}
-			}
-		%>
 	</div>
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

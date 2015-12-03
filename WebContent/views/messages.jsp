@@ -29,7 +29,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="createItem.jsp">Create A Post <span class="sr-only">(current)</span></a></li>
-                <li><a href="aboutUs.html">About Us</a></li>
+                <li><a href="aboutus.jsp">About Us</a></li>
             </ul>
             <form class="navbar-form navbar-left" role="search" action="browse.jsp">
                 <div class="form-group">

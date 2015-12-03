@@ -41,7 +41,7 @@
 					<button type="submit" class="btn btn-default">Search</button>
 				</form>
 				<ul class="nav navbar-nav navbar-right">
-					<%
+ 					<%
 						boolean isAuthenticated = session.getAttribute("username") == null ? false : true;
 						if (isAuthenticated) {
 							out.println("<li><a href='profile.jsp'>" + session.getAttribute("username") + "</a></li>");
@@ -49,7 +49,7 @@
 						} else {
 							out.println("<li><a href='login.jsp'>Login</a></li>");
 						}
-					%>
+					%> 
 				</ul>
 			</div>
 		</div>

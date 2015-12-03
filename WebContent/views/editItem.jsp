@@ -61,30 +61,22 @@
 		String pw = "group3";
 		NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 
-
+		String prodId = request.getParameter("pid");
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(url, uid, pw);
 			
-			//temp pid
-			String sql = "SELECT pname, price, description, pcondition, pcategory FROM Item WHERE pid=1 ";
+			String sql = "SELECT pname, price, description, pcondition, pcategory FROM Item WHERE pid="+prodId;
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rst = pstmt.executeQuery(); 
-			rst.next();
+			rst.first();
 			
 			out.print("<div class=\"container\">"
 					+"		<div class=\"page-header\">"
 					+"			<h1>Edit Your Item</h1>"
 					+"		</div>"
-					+"		<div class=\"row\">"
-					+"			<div class=\"col-xs-6 col-md-3\">"
-					+"				<div class=\"thumbnail\">"
-					+"					<img src= \"../assets/placeholder.png\" alt=\"Item Image\">"
-					+"				</div>"
-					+"			</div>"
-					+"		</div>"
 					+"		<form action=\"editItem.jsp\" method=\"POST\">"
-					+"			<input type='file' name=\"fileToUpload\" id=\"fileToUpload\" /> <br>"
 					+"			<div class=\"col-md-8\">"
 					+"				<div class=\"form-group\">"
 					+"					<label for=\"itemName\">Item</label> <input type=\"text\""
@@ -137,7 +129,7 @@
 			boolean hasDesc = desc != null && !desc.equals("");
 			boolean hasCon = condition != null && !condition.equals("");
 			out.print("<div class=\"container\">");
-			if (!hasItem)
+			/* if (!hasItem)
 				out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing item name</div>");
 			if (!hasPrice)
 				out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing price</div>");
@@ -145,12 +137,12 @@
 				out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing Description</div>");
 			if (!hasCon)
 				out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing Item Condition</div>");
-			out.println("</div>");
+			out.println("</div>"); */
 			if (hasItem && hasPrice && hasDesc && hasCon) {
 				
 				//temp pid, replace with item clicked on
 				String sql2 = "UPDATE Item SET pname = '"+itemName+"', price='"+price+"', description = '"+desc+"', pcondition = '"+condition+"', pcategory = '"+category+"' " 
-				+"WHERE pid = 1";
+				+"WHERE pid ="+prodId;
 				PreparedStatement pstmt2 = con.prepareStatement(sql2);
 				pstmt2.execute();
 			}

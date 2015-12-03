@@ -15,7 +15,7 @@
 </head>
 
 <body>
-	<!--navigation bar-->
+		<!--navigation bar-->
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -31,12 +31,14 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="#">Create A Post <span class="sr-only">(current)</span></a></li>
-					<li><a href="#">About Us</a></li>
+					<li><a href="createItem.jsp">Create A Post <span
+							class="sr-only">(current)</span></a></li>
+					<li><a href="aboutus.jsp">About Us</a></li>
 				</ul>
-				<form class="navbar-form navbar-left" role="search">
+				<form class="navbar-form navbar-left" role="search"
+					action="browse.jsp">
 					<div class="form-group">
-						<input type="text" class="form-control">
+						<input type="text" class="form-control" name="pname">
 					</div>
 					<button type="submit" class="btn btn-default">Search</button>
 				</form>
@@ -54,7 +56,7 @@
 			</div>
 		</div>
 	</nav>
-	<!--end nav-->
+	<!-- end nav -->
 
 	<div class="container">
 		<div class="page-header">
