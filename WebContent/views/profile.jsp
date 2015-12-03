@@ -173,7 +173,7 @@
 		
 		if (comment == null) {}
 		else if(currUserID != null) {
-			String addCommentSQL = "INSERT INTO Comment (subject,content,commenter,receiver) VALUES(\""+subject+"\",\""+comment+"\","+currUserID+","+userID+")";
+			String addCommentSQL = "INSERT INTO Comment (subject, content, commenter, receiver) VALUES(\""+subject+"\",\""+comment+"\","+currUserID+","+userID+")";
 			PreparedStatement pstmtAddComment = con.prepareStatement(addCommentSQL);
 			pstmtAddComment.execute();
 		}

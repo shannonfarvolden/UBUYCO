@@ -65,6 +65,7 @@
 				if (session.getAttribute("loginMessage") != null)
 					out.println("<p>" + session.getAttribute("loginMessage").toString() + "</p>");
 			%>
+		
 		</div>
 		<div class="panel panel-default col-md-offset-2 col-md-8">
 			<div class="panel-body">
@@ -90,7 +91,7 @@
 				Account</button>
 		</div>
 		
-
+</div>
 		<%
 			Connection con = null;
 			String url = "jdbc:mysql://cosc304.ok.ubc.ca/group3";
@@ -102,27 +103,30 @@
 			String password = request.getParameter("password");
 			boolean hasUsername = username != null && !username.equals("");
 			boolean hasPassword = password != null && !password.equals("");
+			
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				con = DriverManager.getConnection(url, uid, pw);
 				
-		/* 			if (!hasUsername)
-						out.println("<div class=\"alert alert-danger\" role=\"alert\">Username.  Enter one.</div>");
-					if (!hasPassword)
-						out.println("<div class=\"alert alert-danger\" role=\"alert\">Who forgets to enter a password?.</div>"); */
 				if (hasUsername && hasPassword) {
 					String sql = "SELECT username FROM User WHERE username = '" + username + "' AND password = '"
 							+ password + "';";
-
+			
 					PreparedStatement pstmt = con.prepareStatement(sql);
 					ResultSet rst = pstmt.executeQuery(sql);
-					while (rst.next()) {
+					if (rst.first()) {
 						session.setAttribute("authenticatedUser", username);
 						session.setAttribute("username", username);
-		%><jsp:forward page="home.jsp"></jsp:forward>
+		%>
+		<jsp:forward page="home.jsp"></jsp:forward>
+
 		<%
-			}
+					}
+					else{
+						out.println("<div class=\"container\"><br><div class=\"col-md-offset-2 col-md-8\"><div class=\"alert alert-danger\" role=\"alert\">Wrong username or password</div></div></div>");
+					}
 				}
+			
 			} catch (SQLException ex) {
 				out.println(ex);
 			} finally {
@@ -134,8 +138,8 @@
 				}
 			}
 		%>
+
 	
-	</div>
 	<script type="text/javascript"> window.onload = errorMessage; </script>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script

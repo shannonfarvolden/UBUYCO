@@ -97,7 +97,7 @@
 				PreparedStatement pstmt2 = con.prepareStatement(sql2);
 				pstmt2.execute();
 					out.println("<div class=\"alert alert-success\" role=\"alert\">Successfully Edited Your Item</div>");
-					out.println("<a class=\"btn btn-default\" href=\"browse.jsp\">Back to browse</a>");
+					out.println("<a class=\"btn btn-default\" href=\"profile.jsp\">Back to profile</a>");
 				}
 			} catch (SQLException ex) {
 				out.println(ex);

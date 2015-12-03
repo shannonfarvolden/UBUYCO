@@ -100,6 +100,8 @@
 		boolean hasName = name != null && !name.equals("");
 		boolean hasUsername = username != null && !username.equals("");
 		boolean hasEmail = email != null && !email.equals("");
+		boolean hasPass1 = password1 != null && !password1.equals("");
+		boolean hasPass2 =  password2 != null && !password2.equals("");
 		boolean passwordsMatch = password1 != null && password2 != null && password1.equals(password2);
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -113,15 +115,22 @@
 				out.println("<div class=\"alert alert-danger\" role=\"alert\">Enter an email.  We won't spam you...promise.</div>");
 			if (!passwordsMatch)
 				out.println("<div class=\"alert alert-danger\" role=\"alert\">Your passwords don't match</div>"); */
-			if (hasName && hasUsername && passwordsMatch && hasEmail) {
-				String sql = "INSERT INTO User (username, email, password) VALUES ('"
-							+ username + "', '" + email + "', '" + password1 + "' );";
-				PreparedStatement pstmt = con.prepareStatement(sql);
-				pstmt.execute();
-				session.setAttribute( "authenticatedUser", name );
-				session.setAttribute( "username", username );
-				session.setAttribute( "password", password1 );
-				%><jsp:forward page="profile.jsp"></jsp:forward><%
+				
+			if (hasName && hasUsername && hasPass1 && hasPass2 && hasEmail) {
+				if(passwordsMatch){
+					String sql = "INSERT INTO User (username, email, password) VALUES ('"
+								+ username + "', '" + email + "', '" + password1 + "' );";
+					PreparedStatement pstmt = con.prepareStatement(sql);
+					pstmt.execute();
+					session.setAttribute( "authenticatedUser", name );
+					session.setAttribute( "username", username );
+					session.setAttribute( "password", password1 );
+					%><jsp:forward page="profile.jsp"></jsp:forward><%
+				}
+				else{
+					out.println("<div class=\"container\"><br><div class=\"col-md-offset-2 col-md-8\"><div class=\"alert alert-danger\" role=\"alert\">Passwords do not match</div></div></div>");
+				}
+						
 			}
 		} catch (SQLException ex) {
 			out.println(ex);
