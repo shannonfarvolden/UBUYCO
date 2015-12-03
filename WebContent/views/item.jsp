@@ -86,10 +86,6 @@ try {
 			"</div>");
 
 		out.print("<div class=\"col-xs-6 col-md-3\">"+
-		    "<div class=\"thumbnail\">"+
-		        "<img src=\"../assets/placeholder.png\" alt=\"Item Image\">"+
-		    "</div>"+
-		    "<div class=\"col-xs-6 col-md-3\">"+
 		        "<h3>Seller: <a href=\"profile.jsp?uid="+rst.getInt("userselling")+"\">"+rstUser.getString("username")+"</a></h3>"+
 		    "</div>"+
 		"</div>");
