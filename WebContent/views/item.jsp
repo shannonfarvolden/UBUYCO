@@ -31,9 +31,9 @@
                 <li><a href="createItem.jsp">Create A Post <span class="sr-only">(current)</span></a></li>
                 <li><a href="aboutUs.html">About Us</a></li>
             </ul>
-            <form class="navbar-form navbar-left" role="search">
+            <form class="navbar-form navbar-left" role="search" action="browse.jsp">
                 <div class="form-group">
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" name="pname">
                 </div>
                 <button type="submit" class="btn btn-default">Search</button>
             </form>
