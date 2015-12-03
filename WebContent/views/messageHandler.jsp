@@ -83,7 +83,6 @@
 		con = DriverManager.getConnection(url, uid, pw);
 
 		String updateMess = "UPDATE Message SET isRead = 1 WHERE mid = " + messID;
-		String updateProd = "UPDATE Item SET isSold = 1 WHERE pid = " + prodID;
 
 		PreparedStatement pstmt = con.prepareStatement(updateMess);
 		pstmt.execute();
@@ -93,11 +92,17 @@
 		ResultSet messInfo = pstmtMess.executeQuery();
 		messInfo.first();
 		
+		String buyerID = messInfo.getString("sender");
+		
 		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
 
 		String responseMessage = "INSERT INTO Message (pid,senttime,receiver,sender,isRead,content) VALUES ("+messInfo.getInt("pid")+",\""+timeStamp+"\","+messInfo.getInt("sender")+","+messInfo.getInt("receiver")+",0,";
 		String acceptance = "\"This message was likely sent in error :)\");";
 		PreparedStatement pstmtResponse;
+		
+		String updateProd = "UPDATE Item SET boughtby = "+buyerID+", issold = 1 WHERE pid = " + prodID;
+		pstmt = con.prepareStatement(updateProd);
+		pstmt.execute();
 		
 		if (offer.equals("1")) {
 			out.println("<h3>Offer Accepted!</h3>");
@@ -115,6 +120,7 @@
 			out.println("<h3>Offer Declined!</h3>");
 			acceptance = "\"I reject your offer!\");";
 		}
+		
 		else {
 			out.println("Deal completed");
 		}
