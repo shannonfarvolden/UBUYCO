@@ -106,11 +106,6 @@
 					+ rst.getString("pcondition") + "</div>" + "</div>" + "<form action=\"buyMessage.jsp?pid="
 					+ prodID + "&uid=" + userID + "\" method=\"post\">"
 					+ "<input type=\"submit\" value=\"Buy Now\" class=\"btn btn-default\">" + "</form>"  +
-
-			"<h3>Comments</h3>" + "<form action=>"
-					+ "​<textarea class=\"form-control\" id=\"txtArea\" rows=\"3\" cols=\"70\"></textarea><br>"
-					+ "<button type=\"submit\" class=\"btn btn-default\">Submit</button>" + "</form>" +
-
 			"</div>");
 		} catch (SQLException ex) {
 			out.println(ex);

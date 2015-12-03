@@ -76,7 +76,7 @@
 					+"		<div class=\"page-header\">"
 					+"			<h1>Edit Your Item</h1>"
 					+"		</div>"
-					+"		<form action=\"editItem.jsp\" method=\"POST\">"
+					+"		<form action=\"editResult.jsp?pid="+prodId+"\" method=\"POST\">"
 					+"			<div class=\"col-md-8\">"
 					+"				<div class=\"form-group\">"
 					+"					<label for=\"itemName\">Item</label> <input type=\"text\""
@@ -118,34 +118,9 @@
 					+"	</div>"
 					+"	<br>" ); 
 
-			String itemName = request.getParameter("itemName");
-			String price = request.getParameter("price");
-			String desc = request.getParameter("description");
-			String condition = request.getParameter("condition");
-			String category = request.getParameter("category");
-
-			boolean hasItem = itemName != null && !itemName.equals("");
-			boolean hasPrice = price != null && !price.equals("");
-			boolean hasDesc = desc != null && !desc.equals("");
-			boolean hasCon = condition != null && !condition.equals("");
+		
 			out.print("<div class=\"container\">");
-			/* if (!hasItem)
-				out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing item name</div>");
-			if (!hasPrice)
-				out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing price</div>");
-			if (!hasDesc)
-				out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing Description</div>");
-			if (!hasCon)
-				out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing Item Condition</div>");
-			out.println("</div>"); */
-			if (hasItem && hasPrice && hasDesc && hasCon) {
-				
-				//temp pid, replace with item clicked on
-				String sql2 = "UPDATE Item SET pname = '"+itemName+"', price='"+price+"', description = '"+desc+"', pcondition = '"+condition+"', pcategory = '"+category+"' " 
-				+"WHERE pid ="+prodId;
-				PreparedStatement pstmt2 = con.prepareStatement(sql2);
-				pstmt2.execute();
-			}
+			
 		} catch (SQLException ex) {
 			out.println(ex);
 		} finally {

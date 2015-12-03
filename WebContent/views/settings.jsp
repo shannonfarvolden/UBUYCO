@@ -62,88 +62,31 @@
 		<div class="page-header">
 			<h1>Settings</h1>
 		</div>
-		<form method=get action=profile.jsp>
+		<form method="POST" action="settingsResult.jsp">
 			<div class="form-group">
 				<label for="name">Username</label> <input type="text"
-					class="form-control" id="name" placeholder="Username">
+					class="form-control" name="username" id="name" placeholder="Username">
 			</div>
 			<div class="form-group">
 				<label for="email">Email</label> <input type="email"
-					class="form-control" id="email" placeholder="Email">
+					class="form-control" name="email" id="email" placeholder="Email">
 			</div>
 			<div class="form-group">
 				<label for="password1">Password</label> <input type="password"
-					class="form-control" id="password1" placeholder="Password">
+					class="form-control" name="password" id="password1" placeholder="Password">
 			</div>
 			<div class="form-group">
 				<label for="password2">Confirm Password</label> <input
-					type="password" class="form-control" id="password2"
+					type="password" class="form-control" name="password2" id="password2"
 					placeholder="Confirm Password">
 			</div>
 			<button type="submit" class="btn btn-default">Submit</button>
 		</form>
 		<br>
-
-		<%
-			Connection con = null;
-			String url = "jdbc:mysql://cosc304.ok.ubc.ca/group3";
-			String uid = "group3";
-			String pw = "group3";
-			NumberFormat currFormat = NumberFormat.getCurrencyInstance();
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				con = DriverManager.getConnection(url, uid, pw);
-
-				String username = request.getParameter("username");
-				String email = request.getParameter("email");
-				String password = request.getParameter("password");
-				String password2 = request.getParameter("password2");
-				String currname = (String) session.getAttribute("username");
-
-				boolean hasUsername = username != null && !username.equals("");
-				boolean hasEmail = email != null && !email.equals("");
-				boolean hasPassword = password != null && !password.equals("");
-				boolean hasPassword2 = password2 != null && !password2.equals("");
-				boolean passwordMatch = password != null && !password.equals("") && password2 != null
-						&& !password2.equals("") && password.equals(password2);
-				out.print("<div class=\"container\">");
-				if (!hasUsername)
-					out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing username!</div>");
-				if (!hasEmail)
-					out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing email!</div>");
-				if (!hasPassword)
-					out.println("<div class=\"alert alert-danger\" role=\"alert\">Missing password!</div>");
-				if (!hasPassword2)
-					out.println(
-							"<div class=\"alert alert-danger\" role=\"alert\">Missing password confirmation!</div>");
-				if (!passwordMatch)
-					out.println(
-							"<div class=\"alert alert-danger\" role=\"alert\">Your password confirmation is incorrect!</div>");
-				out.println("</div>");
-				if (hasUsername && hasEmail && hasPassword && hasPassword2 && password.equals(password2)) {
-
-					//temp pid, replace with item clicked on
-					String sql = "UPDATE User SET username = '" + username + "', email='" + email + "', password = '"
-							+ password + "' " + "WHERE username = '" + currname + "'";
-					PreparedStatement pstmt = con.prepareStatement(sql);
-					pstmt.execute();
-				}
-			} catch (SQLException ex) {
-				out.println(ex);
-			} finally {
-				try {
-					if (con != null)
-						con.close();
-				} catch (SQLException ex) {
-					out.println(ex);
-				}
-			}
-		%>
-
-		<form method="get" action="home.jsp">
+		<!-- <form method="get" action="home.jsp">
 			<button type="submit" class="btn btn-danger delete-button">Delete
 				Account</button>
-		</form>
+		</form> -->
 
 	</div>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

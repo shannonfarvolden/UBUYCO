@@ -84,7 +84,7 @@
     	if (words == null) {
     		out.print("<h5>Send To: "+rstUser.getString("username")+"</h5>"+
     		    "<form action=\"buyMessage.jsp?pid="+prodID+"&uid="+userID+"\" method=\"post\">"+
-    				"<textarea class=\"form-control\" id=\"txtArea\" rows=\"10\" cols=\"50\" name=\"message\">Hello, I would like to purchase your product, friend :)</textarea></br>"+
+    				"<textarea class=\"form-control\" id=\"txtArea\" rows=\"10\" cols=\"50\" name=\"message\"></textarea></br>"+
     				"<input type=\"submit\" value=\"Submit\" class=\"btn btn-default\">"+
     		    "</form>");
     	}
