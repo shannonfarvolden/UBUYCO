@@ -65,15 +65,16 @@
     String uid = "group3";
     String pw = "group3";
     
+    String userName = (String) session.getAttribute("authenticatedUser");
+    
     try {
     	con = DriverManager.getConnection(url, uid, pw);
         
-        String SQL = "SELECT mid, content, senttime, sender, pname, Item.pid FROM Message, Item WHERE Message.pid = Item.pid AND isRead = 0";
+        String SQL = "SELECT mid, content, senttime, sender, pname, Item.pid, User.username FROM Message, Item, User WHERE User.username=\""+userName+"\" AND User.uid = Message.receiver AND Message.pid = Item.pid AND isRead = 0";
     	PreparedStatement pstmt;
     	pstmt = con.prepareStatement(SQL);
     	ResultSet rst = pstmt.executeQuery();
-    	out.println("<h4>Unread</h4>");
-    	out.println("<table><tr><th>Sender</th><th>Item</th><th>Message</th><th></th><th></th></tr>");
+    	out.println("<h2>Unread</h2>");
     	
     	String userSQL;
     	PreparedStatement userpstmt;
@@ -83,28 +84,44 @@
     		userpstmt = con.prepareStatement(userSQL);
     		userrst = userpstmt.executeQuery();
     		if (userrst.first()) {
-    			out.println("<tr><td>"+userrst.getString("username")+"</td><td>"+rst.getString("pname")+"</td><td>"+rst.getString("content")+"</td><td>"+rst.getString("senttime")+
-    					"</td><td><a href=\"messageHandler.jsp?offer=1&pid="+rst.getString("pid")+"&mid="+rst.getString("mid")+"\">Accept</a>|<a href=\"messageHandler.jsp?offer=2&pid="+
-    			rst.getString("pid")+"&mid="+rst.getString("mid")+"\">Decline</a></td></tr>");	
+    			out.print("<div class=\"panel panel-default\">"+
+    					"  			<div class=\"panel-heading \">"+
+    					"  				<h3 class=\"panel-title\">"+ userrst.getString("username") +"</h3>"+
+    					"  			</div>"+
+    					"  			<div class=\"panel-body\">"+ rst.getString("content") +
+    					"  			</div>"+
+    					"  		</div><i>"+rst.getString("senttime")+"</i>");
+    			
+    					
+    					if (!rst.getString("content").equals("I accept your offer!") && !rst.getString("content").equals("I reject your offer!")) {
+    						out.print(" <a href=\"messageHandler.jsp?offer=1&pid="+rst.getString("pid")+"&mid="+rst.getString("mid")+"\">Accept</a>|<a href=\"messageHandler.jsp?offer=2&pid="
+    						+rst.getString("pid")+"&mid="+rst.getString("mid")+"\">Decline</a> <br><br><br>");}
+    					else {
+    						out.print(" <b>Deal Complete</b> <br><br><br>");
+    					}
+    					
+    			
     		}
     	}
-    	out.println("<table>");
     	
-    	SQL = "SELECT mid, content, senttime, sender, pname, Item.pid FROM Message, Item WHERE Message.pid = Item.pid AND isRead = 1";
+    	SQL = "SELECT mid, content, senttime, sender, pname, Item.pid, User.username FROM Message, Item, User WHERE User.username=\""+userName+"\" AND User.uid = Message.receiver AND Message.pid = Item.pid AND isRead = 1";
     	pstmt = con.prepareStatement(SQL);
     	rst = pstmt.executeQuery();
-    	out.println("<h4>Read</h4>");
-    	out.println("<table><tr><th>Sender</th><th>Item</th><th>Message</th><th></th><th></th></tr>");
+    	out.println("<h2>Read</h2>");
     	while (rst.next()) {
     		userSQL = "SELECT username FROM User WHERE uid=" + rst.getInt("sender");
     		userpstmt = con.prepareStatement(userSQL);
     		userrst = userpstmt.executeQuery();
     		if (userrst.first()) {
-    			out.println("<tr><td>"+userrst.getString("username")+"</td><td>"+rst.getString("pname")+"</td><td>"+rst.getString("content")+"</td><td>"+rst.getString("senttime")+
-    					"</td><td></td></tr>");	
+    			out.print("<div class=\"panel panel-default\">"+
+    					"  			<div class=\"panel-heading \">"+
+    					"  				<h3 class=\"panel-title\">"+ userrst.getString("username") +"</h3>"+
+    					"  			</div>"+
+    					"  			<div class=\"panel-body\">"+ rst.getString("content") +
+    					"  			</div>"+
+    					"  		</div><i>"+rst.getString("senttime")+"</i> <br><br><br>");	
     		}
     	}
-    	out.println("<table>");
     }
     catch (SQLException ex) {
     	System.err.println("SQLException: " + ex);
