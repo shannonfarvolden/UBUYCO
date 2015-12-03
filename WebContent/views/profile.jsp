@@ -123,7 +123,7 @@
    			  	"  	<a href=\"item.jsp?pid="+ itemsSold.getInt("pid")+ " \">"+
 				"  		<div class=\"panel panel-default\">"+
 				"  			<div class=\"panel-heading \">"+
-				"  				<h3 class=\"panel-title\">"+ itemsSold.getString("description") +"</h3>"+
+				"  				<h3 class=\"panel-title\">"+ itemsSold.getString("pname") +"</h3>"+
 				"  			</div>"+
 				"  			<div class=\"panel-body\">"+ currFormat.format(itemsSold.getDouble("price"))+
 				"  			</div>"+
@@ -150,7 +150,7 @@
 	   			  	"  	<a href=\"item.jsp?pid="+ itemsBought.getInt("pid")+ " \">"+
 					"  		<div class=\"panel panel-default\">"+
 					"  			<div class=\"panel-heading \">"+
-					"  				<h3 class=\"panel-title\">"+ itemsBought.getString("description") +"</h3>"+
+					"  				<h3 class=\"panel-title\">"+ itemsBought.getString("pname") +"</h3>"+
 					"  			</div>"+
 					"  			<div class=\"panel-body\">"+ currFormat.format(itemsBought.getDouble("price"))+
 					"  			</div>"+
