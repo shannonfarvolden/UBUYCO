@@ -60,7 +60,7 @@
 <form action="browse.jsp" method="get">
 	
 	<b>Filter by Category:</b><br>
-	<input type="radio" name="category" value="none" checked> All<br>
+	<input type="radio" name="category" value="none" checked> All
 	<input type="radio" name="category" value="Lab Books"> Lab Books
 	<input type="radio" name="category" value="Textbooks"> Textbooks
 	<input type="radio" name="category" value="Notes"> Notes
