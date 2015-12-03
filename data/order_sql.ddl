@@ -48,8 +48,6 @@ CREATE TABLE Comment (
     subject VARCHAR(50),
     content VARCHAR(255),
     commenter INT,
-    onproduct INT,
-    incategory VARCHAR(20),
     receiver INT,
     PRIMARY KEY(cid),
     FOREIGN KEY(commenter) REFERENCES User(uid) ON DELETE CASCADE ON UPDATE CASCADE,
