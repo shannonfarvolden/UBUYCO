@@ -1,6 +1,7 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.text.NumberFormat"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF8"%>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ include file="auth.jsp"%>
 
 <!DOCTYPE html>
@@ -67,6 +68,8 @@
 </html>
 
 <%
+	String userName = (String) session.getAttribute("authenticatedUser");
+	
 	String offer = request.getParameter("offer");
 	String prodID = request.getParameter("pid");
 	String messID = request.getParameter("mid");
@@ -84,11 +87,23 @@
 
 		PreparedStatement pstmt = con.prepareStatement(updateMess);
 		pstmt.execute();
+		
+		String messInfoSQL = "SELECT * FROM Message WHERE mid = "+messID;
+		PreparedStatement pstmtMess = con.prepareStatement(messInfoSQL);
+		ResultSet messInfo = pstmtMess.executeQuery();
+		messInfo.first();
+		
+		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
 
+		String responseMessage = "INSERT INTO Message (pid,senttime,receiver,sender,isRead,content) VALUES ("+messInfo.getInt("pid")+",\""+timeStamp+"\","+messInfo.getInt("sender")+","+messInfo.getInt("receiver")+",0,";
+		String acceptance = "\"This message was likely sent in error :)\");";
+		PreparedStatement pstmtResponse;
+		
 		if (offer.equals("1")) {
 			out.println("<h3>Offer Accepted!</h3>");
 			pstmt = con.prepareStatement(updateProd);
 			pstmt.execute();
+			acceptance = "\"I accept your offer!\");";
 
 			updateMess = "UPDATE Message SET isRead = 1 WHERE pid = " + prodID;
 
@@ -98,7 +113,12 @@
 
 		else if (offer.equals("2")) {
 			out.println("<h3>Offer Declined!</h3>");
+			acceptance = "\"I reject your offer!\");";
 		}
+		
+		responseMessage = responseMessage + acceptance;
+		pstmtResponse = con.prepareStatement(responseMessage);
+		pstmtResponse.execute();
 
 	} catch (SQLException ex) {
 		System.err.println("SQLException: " + ex);
