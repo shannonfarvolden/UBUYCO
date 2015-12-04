@@ -63,13 +63,14 @@
 			String uid = "group3";
 			String pw = "group3";
 			NumberFormat currFormat = NumberFormat.getCurrencyInstance();
-
+		
 			String itemName = request.getParameter("itemName");
 			String price = request.getParameter("price");
 			String desc = request.getParameter("description");
 			String condition = request.getParameter("condition");
 			String category = request.getParameter("category");
-
+			String currUser = (String)session.getAttribute("username");
+			
 			boolean hasItem = itemName != null && !itemName.equals("");
 			boolean hasPrice = price != null && !price.equals("");
 			boolean hasDesc = desc != null && !desc.equals("");
@@ -89,14 +90,20 @@
 				Class.forName("com.mysql.jdbc.Driver");
 				con = DriverManager.getConnection(url, uid, pw);
 				//temp change userselling to person logged in
+				String sql2 = "SELECT uid FROM User WHERE username='"+currUser+"'";
+				PreparedStatement pstmt2 = con.prepareStatement(sql2);
+				ResultSet rst = pstmt2.executeQuery(sql2);
+				
 				if (hasItem && hasPrice && hasDesc && hasCon) {
-					String sql = "INSERT INTO Item(pname, price, description, pcondition, issold, userselling, pcategory) VALUES('"
-							+ itemName + "', '" + price + "', '" + desc + "', '" + condition + "', false, 3, '"
-							+ category + "' );";
-					PreparedStatement pstmt = con.prepareStatement(sql);
-					pstmt.execute();
-					out.println("<div class=\"alert alert-success\" role=\"alert\">Successfully Created An Item</div>");
-					out.println("<a class=\"btn btn-default\" href=\"browse.jsp\">Back to browse</a>");
+					if(rst.first()){
+						String sql = "INSERT INTO Item(pname, price, description, pcondition, issold, userselling, pcategory) VALUES('"
+								+ itemName + "', '" + price + "', '" + desc + "', '" + condition + "', false, "+rst.getString("uid")+", '"
+								+ category + "' );";
+						PreparedStatement pstmt = con.prepareStatement(sql);
+						pstmt.execute();
+						out.println("<div class=\"alert alert-success\" role=\"alert\">Successfully Created An Item</div>");
+						out.println("<a class=\"btn btn-default\" href=\"browse.jsp\">Back to browse</a>");
+					}
 				}
 			} catch (SQLException ex) {
 				out.println(ex);
