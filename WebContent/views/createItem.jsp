@@ -84,11 +84,11 @@
 				<div class="form-group">
 					<label for="category">Category</label> <select class="form-control"
 						name="category" id="category">
-						<option value="Textbook">Textbook</option>
-						<option value="Lab Book">Lab Book</option>
+						<option value="Textbooks">Textbooks</option>
+						<option value="Lab Books">Lab Books</option>
 						<option value="Lab/Class Equipment">Lab/Class Equipment</option>
 						<option value="Notes">Notes</option>
-						<option value="Clothing">Clothing</option>
+						<option value="Clothes/Shoes">Clothes/Shoes</option>
 						<option value="Electronics">Electronics</option>
 						<option value="Household Items">Household Item</option>
 						<option value="Miscellaneous">Miscellaneous</option>
